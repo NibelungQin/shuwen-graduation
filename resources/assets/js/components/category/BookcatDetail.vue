@@ -1,30 +1,28 @@
 <template>
-    <div>
-        <mt-header fixed :title="major">
-            <router-link to="/" slot="left">
-                <mt-button icon="back">返回</mt-button>
-            </router-link>
-        </mt-header>
-        <div class="select">
+    <div class="container">
+        <div class="select" id="select" :class="isFixed== true?'isFixed':''">
             <ul class="select-bar">
-                <v-touch tag="li" v-for="(item, index) in types" :class="{'active': index === majorSelected}" :key="index" @tap="setType(item.type,index)">{{item.name}}</v-touch>
+                <el-button v-for="(item, index) in types" :class="{'active': index === majorSelected}" :key="index" @click="setType(item.type,index)">{{item.name}}</el-button>
             </ul>
             <ul class="select-bar" v-if="mins">
-                <li data-type="hot">全部</li>
-                <v-touch tag="li" :class="{'active': index === minorSelected}" v-for="(minor, index) in mins" :key="index" @tap="setMinor(minor,index)">{{minor}}</v-touch>
+                <el-button :class="{'active': index === minorSelected}" v-for="(minor, index) in mins" :key="index" @click="setMinor(minor,index)">{{minor}}</el-button>
             </ul>
         </div>
-        <mt-loadmore class="loadmore" :top-method="loadTop" :bottom-method="loadBottom" :auto-fill="false" ref="loadmore">
+        <div>
             <ul class="book-list">
-                <Booklist v-for="book in books" :book="book" :key="book._id"></Booklist>
+                <book-list v-for="book in books" :book="book" :key="book._id"></book-list>
             </ul>
-        </mt-loadmore>
-    </div></template>
+        </div>
+    </div>
+</template>
 
 <script>
-    //添加远程代理
-    const API_PROXY = 'https://bird.ioliu.cn/v1/?url='
+    import Api from '../../api/novel'
+    import BookList from '../common/BookList'
     export default {
+        components: {
+            BookList,
+        },
         data () {
             return {
                 books: null,
@@ -52,23 +50,43 @@
                 }, {
                     type: 'monthly',
                     name: '包月'
-                }]
+                }],
+
+                offsetTop: '',
+                offsetHeight: '',
+                isFixed: false,
             }
         },
-        created(){
-            axios.get(API_PROXY + 'http://api.zhuishushenqi.com/cats/lv2').then(response=>{
-
-            })
+        mounted(){
+            // handleScroll为页面滚动的监听回调
+            window.addEventListener('scroll', this.handleScroll)
+        },
+        destroyed(){
+            //移除监听
+            window.removeEventListener('scroll', this.handleScroll)
         },
         methods: {
+            handleScroll(){
+                // 监听dom渲染完成
+                this.$nextTick(function(){
+                    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    let headerTop = document.getElementById("select");
+                    if (scrollTop > 10) {
+                        this.isFixed = true;
+                    } else {
+                        this.isFixed = false;
+                    }
+                });
+            },
+
             /**
              * 根据筛选分类获取结果
              */
             // todo 入参需要优化
             getNovelListByCat (gender, type, major, minor) {
-                Indicator.open('加载中')
-                api.getNovelListByCat(gender, type, major, minor).then(response => {
-                    Indicator.close()
+                // Indicator.open('加载中')
+                Api.getNovelListByCat(gender, type, major, minor).then(response => {
+                    // Indicator.close()
                     this.books = response.data.books
                 }).catch(err => {
                     console.log(err)
@@ -90,30 +108,6 @@
                 this.minor = minor
                 this.getNovelListByCat(this.gender, this.type, this.major, this.minor)
             },
-            /**
-             * 下拉刷新
-             */
-            loadTop () {
-                // 加载更多数据
-                this.getNovelListByCat(this.gender, this.type, this.major, this.minor)
-                this.$refs.loadmore.onTopLoaded()
-            },
-            /**
-             * 加载更多
-             */
-            loadBottom () {
-                // 加载更多数据
-                let that = this
-                Indicator.open('加载中')
-                api.getNovelListByCat(this.gender, this.type, this.major, this.minor, this.currentPage * 20).then(response => {
-                    that.books = [...that.books, ...response.data.books]
-                    that.currentPage++
-                    Indicator.close()
-                }).catch(err => {
-                    console.log(err)
-                })
-                this.$refs.loadmore.onBottomLoaded()
-            }
         },
         beforeRouteEnter (to, from, next) {
             next(vm => {
@@ -122,7 +116,7 @@
                 /**
                  * 获取大分类中的小类别
                  */
-                api.getCategoryDetail().then(response => {
+                Api.getCategoryDetail().then(response => {
                     response.data[vm.$route.query.gender].forEach((type) => {
                         if (type.major === vm.$route.query.major) {
                             vm.mins = type.mins
@@ -132,29 +126,35 @@
                     console.log(err)
                 })
                 vm.getNovelListByCat(vm.$route.query.gender, vm.type, vm.$route.query.major)
-                vm.$store.commit(SET_BACK_POSITION, '分类')
+                // vm.$store.commit(SET_BACK_POSITION, '分类')
             })
-        }
+        },
     }
 </script>
 
 <style scoped>
-    .select {
+    .isFixed{
         position: fixed;
-        top: 2rem;
+        top: 0px;
+        z-index: 4;
+        width: 100%;
+    }
+    .select {
+        /*position: fixed;*/
+        /*top: 2rem;*/
         left: 0;
         background: #fff;
-        z-index: 10;
+        /*z-index: 10;*/
     }
     .select-bar {
         display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        flex-wrap: nowrap;
+        /*flex-direction: row;*/
+        /*justify-content: flex-start;*/
+        /*flex-wrap: nowrap;*/
         height: 2rem;
-        width: 100vw;
-        overflow-x: auto;
-        overflow-y: hidden;
+        /*width: 100vw;*/
+        /*overflow-x: auto;*/
+        /*overflow-y: hidden;*/
         border-bottom: 1px solid #f2f2f2;
     }
     .select-bar li {
@@ -168,6 +168,7 @@
         color: red;
     }
     .book-list {
+        position: relative;
         width: 100vw;
         background: #f2f2f2;
     }

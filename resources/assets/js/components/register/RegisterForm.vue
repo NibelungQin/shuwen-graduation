@@ -91,8 +91,8 @@
                     email: this.dataForm.email,
                     password: this.dataForm.password,
                 };
-                axios.post('/api/register', data).then(function () {
-                    this.$router.push({name: 'bookCategory'})
+                axios.post('/api/register', data).then(response=> {
+                    this.$router.push({name: 'home'})
                 }).catch(function (response) {
 
                 })

@@ -4,7 +4,7 @@
         <div v-for="(item ,key, index) in category" :key="index">
             <p class="category-type">{{categoryType[key]}}</p>
             <ul>
-                <li v-for="(cat, index) in item" :key="index" @click="categoryDetail(key,cat.name)">
+                <li v-for="(cat, index) in item" :key="index" @click="$router.push({path:'/bookcat/detail',query:{gender:key,major:cat.name}})">
                     <p class="category">{{cat.name}}</p>
                     <span class="book-count">{{cat.bookCount}}本</span>
                 </li>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+    import Api from '../../api/novel'
     //添加远程代理
     const API_PROXY = 'https://bird.ioliu.cn/v1/?url='
     export default {
@@ -28,18 +29,13 @@
                 }
             }
         },
-        mounted () {
-            axios.get(API_PROXY + 'http://api.zhuishushenqi.com/cats/lv2/statistics').then(response => {
+        created() {
+            Api.getCategory().then(response => {
                 this.category = response.data
                 this.loading = false
             }).catch(err => {
                 console.log(err)
             })
-        },
-        methods:{
-            categoryDetail(key,name){
-                this.$router.push({name:'bookcatDetail',params:{gender:key,major:name}})
-            }
         }
     }
 </script>

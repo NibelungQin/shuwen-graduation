@@ -19,7 +19,6 @@
             if (jwtToken.getToken()){
                 this.$store.dispatch('setAuthUser')
             }else if (Cookie.get('auth_id')){
-                console.log('7777');
                 this.$store.dispatch('refreshToken')
             }
         }

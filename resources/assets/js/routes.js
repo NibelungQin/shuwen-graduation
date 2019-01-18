@@ -5,7 +5,7 @@ let routes = [
     {
         path: '/',
         name: 'home',
-        component: require('./components/user/profile'),//profile暂时作为主页
+        component: require('./components/user/Profile'),//profile暂时作为主页
         meta: {}
     },
     {
@@ -32,13 +32,52 @@ let routes = [
         component: require('./components/category/BookcatDetail'),
         meta: {}
     },
-    //测试操作
     {
         path: '/profile',
-        name: 'profile',
-        component: require('./components/user/profile'),
+        component: require('./components/user/ProfileWrapper'),
+        children: [
+            {
+                path: '',
+                name: 'profile',
+                component: require('./components/user/Profile'),
+                meta: {requireAuth: true}
+            },
+        ],
         meta: {requireAuth: true}
     },
+    {
+        path: '/bookcat/detail',
+        name: 'bookcatDetail',
+        component: require('./components/category/BookcatDetail')
+    },
+    // {
+    //     path: '/readbook/:bookId',
+    //     name: 'readbook',
+    //     component: require('./components/book/ReadBook')
+    // },
+    {
+        path: '/book/:bookId',
+        name: 'book',
+        component: require('./components/common/Book')
+    },
+    // {
+    //     path: '/changeSource/:bookId',
+    //     name: 'changeSource',
+    //     component: ChangeSource
+    // },
+    // {
+    //     path: '/ranklist',
+    //     name: 'ranklist',
+    //     redirect: '/ranklist/weekRank',
+    //     component: Ranklist,
+    //     children: [
+    //         {
+    //             path: '/ranklist/*',
+    //             name: 'RanklistDetail',
+    //             component: RanklistDetail
+    //         }
+    //     ]
+    // }
 ]
 const router = new VueRouter({
     mode: 'history',

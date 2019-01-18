@@ -32,7 +32,7 @@ class TokenProxy
         }
         return response()->json([
             'status' => false,
-            'message' => 'credential is false'
+            'message' => 'credential is not match'
         ], 421);
     }
 
@@ -49,7 +49,7 @@ class TokenProxy
         $user = Auth::guard('api')->user();
 
         if (is_null($user)){
-            app('cookie')->queue(app('cookie')->forget('refreshToken'));
+            app('cookie')->forget('refreshToken');
             return response()->json([
                 'message' => 'logout success'
             ], 204);

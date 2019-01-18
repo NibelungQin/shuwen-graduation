@@ -30,8 +30,7 @@
                     </li>
 
                     <li v-if="user.authenticated" class="nav-item dropdown ">
-                        <img class="img-fluid" src="" alt="">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{user.name}} <span class="caret"></span>
                         </a>
 
@@ -52,7 +51,7 @@
     import {mapState} from 'vuex'
     export default {
         created(){
-            this.$store.dispatch('setAuthUser');
+            // this.$store.dispatch('setAuthUser');
         },
         computed:mapState({
             user: state=>state.AuthUser

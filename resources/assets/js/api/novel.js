@@ -1,3 +1,5 @@
+import {SHUWEN_CONFIG} from "../config";
+
 export default {
 
     /**
@@ -5,7 +7,7 @@ export default {
      * @returns {null}
      */
     getRankType () {
-        return Vue.http.get('/ranking/gender')
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/ranking/gender')
     },
 
     /**
@@ -13,7 +15,7 @@ export default {
      * @returns {String} id为周榜id，月榜id，总榜id
      */
     getRankList (id) {
-        return Vue.http.get('/ranking/' + id)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/ranking/' + id)
     },
 
     /**
@@ -22,14 +24,14 @@ export default {
      * http://api.zhuishushenqi.com/cats/lv2
      */
     getCategory () {
-        return Vue.http.get('/cats/lv2/statistics')
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/cats/lv2/statistics')
     },
 
     /**
      * 获取细分的类别
      */
     getCategoryDetail () {
-        return Vue.http.get('/cats/lv2')
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/cats/lv2')
     },
 
     /**
@@ -44,7 +46,7 @@ export default {
      */
     // todo 入参需要用es6优化
     getNovelListByCat (gender, type, major, minor = '', start = 0, limit = 20) {
-        return Vue.http.get('/book/by-categories?gender=' + gender + '&type=' + type + '&major=' + major + '&minor=' + minor + '&start=' + start + '&limit=' + limit)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/book/by-categories?gender=' + gender + '&type=' + type + '&major=' + major + '&minor=' + minor + '&start=' + start + '&limit=' + limit)
     },
 
     /**
@@ -52,7 +54,7 @@ export default {
      * @param {String} bookId 小说id
      */
     getBook (bookId) {
-        return Vue.http.get('/book/' + bookId)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/book/' + bookId)
     },
 
     /**
@@ -61,7 +63,7 @@ export default {
      * 'http://api.zhuishushenqi.com/btoc?view=summary&book=548d9c17eb0337ee6df738f5'
      */
     getGenuineSource (bookId) {
-        return Vue.http.get('/btoc?view=summary&book=' + bookId)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/btoc?view=summary&book=' + bookId)
     },
 
     /**
@@ -70,7 +72,7 @@ export default {
      * 'http://api.zhuishushenqi.com/atoc?view=summary&book=548d9c17eb0337ee6df738f5'
      */
     getMixSource (bookId) {
-        return Vue.http.get('/atoc?view=summary&book=' + bookId)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/atoc?view=summary&book=' + bookId)
     },
 
     /**
@@ -79,7 +81,7 @@ export default {
      *  http://api.zhuishushenqi.com/mix-atoc/50bff3ec209793513100001c?view=chapters
      */
     getMixChapters (bookId) {
-        return Vue.http.get('/mix-atoc/' + bookId + '?view=chapters')
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/mix-atoc/' + bookId + '?view=chapters')
     },
 
     /**
@@ -87,7 +89,7 @@ export default {
      * @param {String} sourceId 小说源id
      */
     getChapters (sourceId) {
-        return Vue.http.get('/atoc/' + sourceId + '?view=chapters')
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/atoc/' + sourceId + '?view=chapters')
     },
 
     /**
@@ -96,7 +98,7 @@ export default {
      * http://chapterup.zhuishushenqi.com/chapter/http://vip.zhuishushenqi.com/chapter/5817f1161bb2ca566b0a5973?cv=1481275033588
      */
     getBookChapterContent (chapterUrl) {
-        return Vue.http.get('/getChapter?chapterUrl=' + chapterUrl)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/getChapter?chapterUrl=' + chapterUrl)
     },
 
     /**
@@ -104,7 +106,7 @@ export default {
      * @returns {null}
      */
     getHotWords () {
-        return Vue.http.get('/book/search-hotwords')
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/book/search-hotwords')
     },
 
     /**
@@ -113,7 +115,7 @@ export default {
      * http://api05iye5.zhuishushenqi.com/book/auto-complete?query=%E6%96%97%E7%BD%97
      */
     autoComplete (searchWord) {
-        return Vue.http.get('/book/auto-complete?query=' + searchWord)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/book/auto-complete?query=' + searchWord)
     },
 
     /**
@@ -121,7 +123,7 @@ export default {
      *  @param {String} searchWord 搜索内容
      */
     fuzzySearch (searchWord) {
-        return Vue.http.get('/book/fuzzy-search?query=' + searchWord)
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/book/fuzzy-search?query=' + searchWord)
     },
 
     /**
@@ -130,7 +132,7 @@ export default {
      * http://api05iye5.zhuishushenqi.com/book?view=updated&id=531169b3173bfacb4904ca67,51d11e782de6405c45000068
      */
     getUpdate (bookList) {
-        return Vue.http.get('/book?view=updated&id=' + bookList.toString())
+        return axios.get(SHUWEN_CONFIG.NOVEL_URL + '/book?view=updated&id=' + bookList.toString())
     }
 
 }
