@@ -21,3 +21,10 @@ Route::post('/register','Auth\RegisterController@register');
 Route::post('/login','Auth\LoginController@login');
 Route::post('/logout','Auth\LoginController@logout');
 Route::post('/token/refresh','Auth\LoginController@refresh');
+
+Route::post('/questions','QuestionController@store');
+Route::get('/questions/{id}','QuestionController@show');
+Route::post('/questions/{id}','QuestionController@update');
+Route::get('/topics','TopicController@index');
+
+Route::post('/upload/img','UploadController@image');

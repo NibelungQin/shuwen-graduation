@@ -1,13 +1,10 @@
 <template>
-    <div>
-        <div fixed :title="book && book.title">
-            <div slot="left" @click="$router.go(backStep)">
-                <el-button icon="back">返回</el-button>
-            </div>
-            <router-link v-if="book" :to="/changeSource/+book._id" slot="right">
-                <el-button>换源</el-button>
-            </router-link>
-        </div>
+    <div class="container">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>{{book.cat}}</el-breadcrumb-item>
+            <el-breadcrumb-item>{{book.title}}</el-breadcrumb-item>
+        </el-breadcrumb>
         <section>
             <div class="book-info">
                 <img v-if="book" :src="imgUrl" onerror="javascript:this.src='https://github.com/zimplexing/vue-nReader/blob/master/screenshot/errBook.png?raw=true'">
@@ -16,11 +13,12 @@
                     <p class="book-author" v-if="book">{{book.author}}</p>
                     <p class="reader-info" v-if="book">
                         <span></span>{{book.updated | ago}} | {{wordCount}}万 | {{book.cat}}</p>
+                    <div class="book-operation">
+                        <el-button type="primary" @click="followAction">{{isFollowed ? '不追了' : '追更新'}}</el-button>
+                        <el-button type="primary" @click="readBook">开始阅读</el-button>
+                    </div>
                 </div>
-            </div>
-            <div class="book-operation">
-                <el-button type="primary" @click="followAction">{{isFollowed ? '不追了' : '追更新'}}</el-button>
-                <el-button type="primary" @click="readBook">开始阅读</el-button>
+
             </div>
             <div class="book-status">
                 <div class="list-item">
@@ -45,6 +43,10 @@
 </template>
 
 <script>
+    import {
+        SET_CURRENT_SOURCE,
+        SET_READ_BOOK
+    } from '../../modules/mutation-types'
     import {SHUWEN_CONFIG} from "../../config";
     import Api from '../../api/novel'
     //时间过滤器
@@ -86,13 +88,13 @@
             /**
              * 设置默认小说源为优质书源
              */
-            // if (!this.$store.state.source) {
-            //     api.getMixSource(this.$route.params.bookId).then(response => {
-            //         this.$store.commit(SET_CURRENT_SOURCE, response.data[0]._id)
-            //     }).catch(err => {
-            //         console.log(err)
-            //     })
-            // }
+            if (!this.$store.state.Book.source) {
+                Api.getMixSource(this.$route.params.bookId).then(response => {
+                    this.$store.commit(SET_CURRENT_SOURCE, response.data[0]._id)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
         },
         beforeRouteEnter (to, form, next) {
             next(vm => {
@@ -106,14 +108,14 @@
             if (to.path.indexOf('changeSource') !== -1 || to.path.indexOf('readbook') !== -1) {
                 next()
             } else {
-                // this.$store.commit(SET_CURRENT_SOURCE, '')
+                this.$store.commit(SET_CURRENT_SOURCE, '')
                 next()
             }
         },
         methods: {
             readBook () {
-                // this.$store.commit(SET_READ_BOOK, this.book)
-                // this.$router.push('/readbook/' + this.$route.params.bookId)
+                this.$store.commit(SET_READ_BOOK, this.book)
+                this.$router.push('/readbook/' + this.$route.params.bookId)
             },
             isFollowBook () {
                 // 返回本地是否缓存（加入书架）
@@ -145,13 +147,16 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .header {
+        display: flex;
+        flex-direction: row;
+    }
     section {
         box-sizing: border-box;
         padding-right: 1rem;
         padding-left: 1rem;
         padding-bottom: 0.2rem;
         padding-top: 3rem;
-        width: 100vw;
     }
 
     section:first-child {
@@ -163,12 +168,12 @@
         flex-direction: row;
         box-sizing: border-box;
         width: 100%;
-        height: 5rem;
+        height: 10rem;
     }
 
     .book-info img {
-        width: 4rem;
-        height: 5rem;
+        width: 8rem;
+        height: 10rem;
     }
 
     .book-info .book-info-detail {
@@ -178,8 +183,9 @@
     }
 
     .book-info p {
+        flex-direction: row;
         margin: 0;
-        line-height: 1.5rem;
+        line-height: 1.8rem;
         margin-left: 0.5rem;
     }
 
@@ -187,6 +193,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        margin-left: 0.5rem;
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
@@ -212,6 +219,7 @@
         flex-direction: row;
         justify-content: space-around;
         flex-wrap: wrap;
+        margin-top: 0.5rem;
         padding-bottom: 1rem;
         border-bottom: 1px solid #f2f2f2;
     }
@@ -262,9 +270,13 @@
         background: cornflowerblue;
     }
 
+    .book-title {
+        font-size: 1rem;
+    }
+
     .reader-info,
     .book-author {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .book-intro {

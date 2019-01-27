@@ -17,6 +17,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/book/category">图书</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/questions/create">发起问题</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -51,7 +54,7 @@
     import {mapState} from 'vuex'
     export default {
         created(){
-            // this.$store.dispatch('setAuthUser');
+            this.$store.dispatch('setAuthUser');
         },
         computed:mapState({
             user: state=>state.AuthUser

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="col-md-6 list">
         <li @click="getBook()">
             <img :src="imgUrl">
             <div class="book-info">
@@ -45,9 +45,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .list{
+        width: 500px;
+        float: left;
+    }
     img {
-        width: 4rem;
-        height: 5rem;
+        width: 6rem;
+        height: 8rem;
         float: left;
         margin-right: 0.4rem;
     }
@@ -69,7 +73,7 @@
     .book-info {
         box-sizing: border-box;
         width: 100%;
-        height: 5rem;
+        height: 8rem;
         padding-left: 5rem;
         padding-top: 0.2rem;
         padding-bottom: 0.2rem;
@@ -81,8 +85,11 @@
 
     .short-intro {
         overflow: hidden;
+        -webkit-line-clamp: 2;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+
         color: #655555;
     }
 

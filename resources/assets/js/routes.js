@@ -21,6 +21,18 @@ let routes = [
         meta: {requireGuest: true}
     },
     {
+        path: '/questions/create',
+        name: 'questionCreate',
+        component: require('./components/question/Create'),
+        meta: {requireAuth: true}
+    },
+    {
+        path: '/questions/:id/edit',
+        name: 'questionEdit',
+        component: require('./components/question/Edit'),
+        meta: {requireAuth: true}
+    },
+    {
         path: '/book/category',
         name: 'bookCategory',
         component: require('./components/category/BookCategory'),
@@ -50,21 +62,21 @@ let routes = [
         name: 'bookcatDetail',
         component: require('./components/category/BookcatDetail')
     },
-    // {
-    //     path: '/readbook/:bookId',
-    //     name: 'readbook',
-    //     component: require('./components/book/ReadBook')
-    // },
+    {
+        path: '/readbook/:bookId',
+        name: 'readbook',
+        component: require('./components/book/ReadBook')
+    },
     {
         path: '/book/:bookId',
         name: 'book',
         component: require('./components/common/Book')
     },
-    // {
-    //     path: '/changeSource/:bookId',
-    //     name: 'changeSource',
-    //     component: ChangeSource
-    // },
+    {
+        path: '/changeSource/:bookId',
+        name: 'changeSource',
+        component: require('./components/book/ChangeSource')
+    },
     // {
     //     path: '/ranklist',
     //     name: 'ranklist',
