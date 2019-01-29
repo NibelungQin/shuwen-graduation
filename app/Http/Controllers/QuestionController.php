@@ -48,7 +48,7 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        $question = $this->questionRepository->byId($id);
+        $question = $this->questionRepository->byIdWithTopicAndUser($id);
         return response()->json([
             'status' => 200,
             'data'   => $question,

@@ -1,53 +1,55 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="card">
-                    <div class="card-header">
-                        修改问题
-                    </div>
-                    <div class="card-body">
-                        <el-form :model="formData" :rules="rules" ref="formData">
-                            <el-form-item label="标题" prop="title">
-                                <el-input
-                                        v-model="formData.title"
-                                        clearable
-                                        placeholder="请输入标题"
-                                ></el-input>
-                            </el-form-item>
-                            <el-form-item label="标签">
-                                <el-select
-                                        style="width: 100%"
-                                        v-model="formData.topics"
-                                        multiple
-                                        filterable
-                                        allow-create
-                                        default-first-option
-                                        remote
-                                        :remote-method="moreTopics"
-                                        placeholder="请选择相关话题">
-                                    <el-option
-                                            v-for="item in items"
-                                            :key="item.id"
-                                            :label="item.name"
-                                            :value="item.id">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item>
-                                <quill-editor
-                                        v-model="formData.body"
-                                        ref="myQuillEditor"
-                                        :options="editorOption"
-                                        @blur="onEditorBlur($event)"
-                                        @focus="onEditorFocus($event)"
-                                        @change="onEditorChange($event)">
-                                </quill-editor>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button class="btn-block" type="primary" @click="submitQuestion">提交</el-button>
-                            </el-form-item>
-                        </el-form>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card">
+                        <div class="card-header">
+                            修改问题
+                        </div>
+                        <div class="card-body">
+                            <el-form :model="formData" :rules="rules" ref="formData">
+                                <el-form-item label="标题" prop="title">
+                                    <el-input
+                                            v-model="formData.title"
+                                            clearable
+                                            placeholder="请输入标题"
+                                    ></el-input>
+                                </el-form-item>
+                                <el-form-item label="标签">
+                                    <el-select
+                                            style="width: 100%"
+                                            v-model="formData.topics"
+                                            multiple
+                                            filterable
+                                            allow-create
+                                            default-first-option
+                                            remote
+                                            :remote-method="moreTopics"
+                                            placeholder="请选择相关话题">
+                                        <el-option
+                                                v-for="item in items"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item>
+                                    <quill-editor
+                                            v-model="formData.body"
+                                            ref="myQuillEditor"
+                                            :options="editorOption"
+                                            @blur="onEditorBlur($event)"
+                                            @focus="onEditorFocus($event)"
+                                            @change="onEditorChange($event)">
+                                    </quill-editor>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button class="btn-block" type="primary" @click="submitQuestion">提交</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,6 +73,7 @@
                     topics:[],
                     body: null,
                 },
+                topics: [],
                 items: [],
                 rules: {
                     'title': [
@@ -106,9 +109,10 @@
         },
         mounted(){
             axios.get('/api/questions/' + this.$route.params.id).then(response=>{
-                let topics = response.data.data.topics
+                let topics = (response.data.data.topics);
                 for (let topic of topics.values()){
-                    this.formData.topics.push(topic.id)
+                    this.topics.push(topic);
+                    this.formData.topics.push(topic.name)
                 }
                 this.formData.title = response.data.data.title
                 this.formData.body = response.data.data.body
@@ -121,13 +125,20 @@
                 })
             },
             submitQuestion(){
+                for (let index in this.formData.topics){
+                    for (let value of this.topics){
+                        if (this.formData.topics[index] == value.name){
+                            this.formData.topics[index]=value.id
+                        }
+                    }
+                }
                 let data = {
                     title: this.formData.title,
                     topics: this.formData.topics,
                     body: this.formData.body
                 }
                 axios.post('/api/questions/' + this.$route.params.id, data).then(response => {
-
+                    this.$router.push({name: 'questionShow'})
                 })
             },
             onEditorBlur(){//失去焦点事件

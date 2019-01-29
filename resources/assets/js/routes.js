@@ -27,6 +27,12 @@ let routes = [
         meta: {requireAuth: true}
     },
     {
+        path: '/questions/:id',
+        name: 'questionShow',
+        component: require('./components/question/Show'),
+        meta: {}
+    },
+    {
         path: '/questions/:id/edit',
         name: 'questionEdit',
         component: require('./components/question/Edit'),

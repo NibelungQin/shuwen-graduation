@@ -70,5 +70,15 @@
 </script>
 
 <style scoped>
-
+    .navbar{
+        margin-bottom: 0;
+        padding: 2em;
+    }
+    .navbar-default .navbar-nav > .active > a{
+        color: #555;
+        background-color: inherit;
+    }
+    .dropdown-menu li a{
+        padding: 10px 20px;
+    }
 </style>
