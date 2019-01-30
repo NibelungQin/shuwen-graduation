@@ -37,9 +37,9 @@ class QuestionController extends Controller
         $question->topics()->attach($topics);
 
         return response()->json([
-            'status' => 200,
-            'msg'    => 'success'
-        ]);
+            'status' => true,
+            'msg'    => '问题创建成功'
+        ],200);
     }
 
     /**
@@ -50,10 +50,10 @@ class QuestionController extends Controller
     {
         $question = $this->questionRepository->byIdWithTopicAndUser($id);
         return response()->json([
-            'status' => 200,
-            'data'   => $question,
-            'msg'    => 'success'
-        ]);
+            'status'  => true,
+            'data'    => $question,
+            'message' => '获得问题信息成功'
+        ],200);
     }
 
     public function update($id)
@@ -69,7 +69,8 @@ class QuestionController extends Controller
         $question->topics()->sync($topics);
 
         return response()->json([
-            'status' => 200
-        ]);
+            'status'  => true,
+            'message' => '问题修改成功'
+        ],200);
     }
 }

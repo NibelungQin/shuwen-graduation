@@ -26,6 +26,9 @@ Route::post('/questions','QuestionController@store');
 Route::get('/questions/{id}','QuestionController@show');
 Route::post('/questions/{id}','QuestionController@update');
 
+Route::get('/questions/{id}/answer','AnswerController@index');
+Route::post('/questions/{id}/answer','AnswerController@store');
+
 Route::post('/question/follower','QuestionFollowController@follower');
 Route::post('/question/follow','QuestionFollowController@followThisQuestion');
 

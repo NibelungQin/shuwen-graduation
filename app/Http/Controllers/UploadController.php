@@ -25,6 +25,6 @@ class UploadController extends Controller
         return response()->json([
             'status'=>user('api'),
             'imgUrl'=>'/'.$filePath.$fileName
-        ]);
+        ],200);
     }
 }

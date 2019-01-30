@@ -39,6 +39,12 @@ let routes = [
         meta: {requireAuth: true}
     },
     {
+        path: '/questions/:id/answer',
+        name: 'answerCreate',
+        component: require('./components/answer/Create'),
+        meta: {}
+    },
+    {
         path: '/book/category',
         name: 'bookCategory',
         component: require('./components/category/BookCategory'),

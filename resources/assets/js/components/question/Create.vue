@@ -95,12 +95,13 @@
                         accept: 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon',  // 可选参数 可上传的图片格式
                     },
                     toolOptions:[
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'header': 1 }, { 'header': 2 }],
-                        ['image'],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'header': [1, 2, 3, 4, 5, 6, false] }],
+                        { 'header': [1, 2, 3, 4, 5, 6, false] },
+                        'bold', 'italic', 'underline', 'strike',
+                        { 'header': 1 }, { 'header': 2 },
+                        { 'list': 'ordered' }, { 'list': 'bullet' },
+                        'image',
                     ],
-                    placeholder: '请输入内容'
+                    placeholder: '请输入内容',
                 }
             )
         },
@@ -131,5 +132,10 @@
 </script>
 
 <style scoped>
-
+    .quill-editor {
+        height: 200px;
+    }
+    .btn-block {
+        margin-top: 50px;
+    }
 </style>

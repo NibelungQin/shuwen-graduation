@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="jumbotron">
-            <div class="container">
+            <!--使用v-if防止未渲染前先获得了question数据而报错 -->
+            <div class="container" v-if="question">
                 <div class="media">
                     <div>
                         <a href="#">
@@ -9,23 +10,47 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h6 class="media-heading">{{question.user.name}}</h6>
+                        <h5 class="media-heading">{{question.user.name}}</h5>
                         <h6>{{question.created_at | ago()}} 提问</h6>
                         <div class="">
                             <question-follow-button :question="question.id"></question-follow-button>
                             <button class="btn btn-dark btn-sm">收藏</button>
-                            <span>评论</span>
+                            <el-button type="text" icon="el-icon-edit">评论</el-button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container" v-if="question">
             <div class="row">
                 <div class="col-md-9" role="main">
-                    <div>
-
+                    <div class="post-topheader__info">
+                        <h1 class="h2 post-topheader__info--title">
+                            <span href="">{{question.title}}</span>
+                        </h1>
+                        <ul class="taglist--inline inline-block question__title--tag" v-for="topic in question.topics">
+                            <li class="tagPopup">
+                                <a class="topic">{{topic.name}} </a>
+                            </li>
+                        </ul>
+                        <span>666次浏览</span>
                     </div>
+                    <div class="card-body">
+                        <div class="question fmt">
+                            <p v-html="question.body"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <answer-create :question="question.id"></answer-create>
+                </div>
+                <div>
+                    <span><h3>8个回答</h3></span>
+                </div>
+                <div class="card-footer">
+                    <answer-show></answer-show>
                 </div>
             </div>
         </div>
@@ -33,12 +58,16 @@
 </template>
 
 <script>
+    import AnswerCreate from '../answer/Create'
+    import AnswerShow from  '../answer/Show'
     import {mapState} from 'vuex'
     import QuestionFollowButton from './QuestionFollowButton'
     export default {
         name: "Show",
         components:{
-            QuestionFollowButton
+            QuestionFollowButton,
+            AnswerCreate,
+            AnswerShow
         },
         data() {
             return {
@@ -57,7 +86,7 @@
         }),
         created(){
             axios.get('/api/questions/' + this.$route.params.id).then(response=>{
-                this.question = response.data.data
+                this.$set(this, 'question', response.data.data)
             })
         }
     }
@@ -90,5 +119,55 @@
     }
     .media-heading {
         color: #EB7347;
+    }
+    .post-topheader__info {
+        margin-left: 0;
+    }
+    .mb15, .mb-15 {
+        margin-bottom: 15px !important;
+    }
+    .post-topheader__info--title {
+        margin: 0 0 10px 0;
+        line-height: 1.2;
+    }
+    .taglist--inline, .taglist--block {
+        list-style: none;
+        padding: 0;
+        font-size: 0;
+    }
+    .mr10, .mr-10 {
+        margin-right: 10px !important;
+    }
+    .inline-block {
+        display: inline-block;
+    }
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    .taglist--inline>li {
+        display: inline-block;
+        margin-right: 3px;
+    }
+
+    .taglist--inline li, .taglist--block li {
+        padding: 0;
+        font-size: 13px;
+    }
+    a.topic {
+        background: #5cb860;
+        padding: 1px 10px 0;
+        border-radius: 30px;
+        text-decoration: none;
+        margin: 0 5px 5px 0;
+        display: inline-block;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    a.topic:hover {
+        background: #259;
+        color: #fff;
+        text-decoration: none;
     }
 </style>
