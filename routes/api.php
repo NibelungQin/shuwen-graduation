@@ -32,6 +32,10 @@ Route::post('/questions/{id}/answer','AnswerController@store');
 Route::post('/question/follower','QuestionFollowController@follower');
 Route::post('/question/follow','QuestionFollowController@followThisQuestion');
 
+Route::get('/answer/{id}/comment','CommentController@answer');
+Route::get('/question/{id}/comment','CommentController@question');
+Route::post('/comment','CommentController@store');
+
 Route::get('/topics','TopicController@index');
 
 Route::post('/upload/img','UploadController@image');

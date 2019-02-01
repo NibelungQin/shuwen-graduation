@@ -27,4 +27,9 @@ class Question extends Model
     {
         return $this->belongsToMany(Topic::class)->withTimestamps();
     }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Model\Comment', 'commentable');
+    }
 }

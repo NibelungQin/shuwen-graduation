@@ -20,7 +20,7 @@ class QuestionRepository
      */
     public function byIdWithTopicAndUser($id)
     {
-        return Question::where('id',$id)->with(['topics','user'])->first();
+        return Question::where('id',$id)->with(['topics','comments','user'])->first();
     }
 
     /**
@@ -41,5 +41,11 @@ class QuestionRepository
     public function create(array $attributes)
     {
         return Question::create($attributes);
+    }
+
+    public function getQuestionCommentsById($id)
+    {
+        $question = Question::with(['comments', 'comments.user'])->where('id', $id)->first();
+        return $question->comments;
     }
 }

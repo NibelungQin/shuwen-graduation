@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\Answer;
 use App\Model\Question;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -53,5 +54,10 @@ class User extends Authenticatable
     public function followed($question)
     {
         return !!$this->follows()->where('question_id', $question)->count();
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
     }
 }

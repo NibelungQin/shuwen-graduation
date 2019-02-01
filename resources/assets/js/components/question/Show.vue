@@ -12,12 +12,22 @@
                     <div class="media-body">
                         <h5 class="media-heading">{{question.user.name}}</h5>
                         <h6>{{question.created_at | ago()}} 提问</h6>
-                        <div class="">
+                        <p style="margin-left: -80px;margin-top:20px">
                             <question-follow-button :question="question.id"></question-follow-button>
                             <button class="btn btn-dark btn-sm">收藏</button>
-                            <el-button type="text" icon="el-icon-edit">评论</el-button>
-                        </div>
+                            <el-button
+                                    type="text"
+                                    icon="el-icon-edit"
+                                    @click="is_comment=!is_comment"
+                            >评论 {{Object.keys(question.comments).length}}</el-button>
+                        </p>
                     </div>
+                </div>
+                <div class="answer-comments" v-if="is_comment">
+                    <comment
+                            type="question"
+                            :model="question.id"
+                    ></comment>
                 </div>
             </div>
         </div>
@@ -46,12 +56,7 @@
                 <div>
                     <answer-create :question="question.id"></answer-create>
                 </div>
-                <div>
-                    <span><h3>8个回答</h3></span>
-                </div>
-                <div class="card-footer">
-                    <answer-show></answer-show>
-                </div>
+                <answer-show></answer-show>
             </div>
         </div>
     </div>
@@ -60,6 +65,7 @@
 <script>
     import AnswerCreate from '../answer/Create'
     import AnswerShow from  '../answer/Show'
+    import Comment from '../comment/Comment'
     import {mapState} from 'vuex'
     import QuestionFollowButton from './QuestionFollowButton'
     export default {
@@ -67,11 +73,13 @@
         components:{
             QuestionFollowButton,
             AnswerCreate,
-            AnswerShow
+            AnswerShow,
+            Comment
         },
         data() {
             return {
                 question: null,
+                is_comment: false,
             }
         },
         filters: {
@@ -95,8 +103,6 @@
 <style scoped>
     .jumbotron{
         background-color: #AEDD81;
-        margin-bottom: 20px;
-        color: black;
     }
     .media,.media-body{
         overflow: inherit;
@@ -155,7 +161,7 @@
         font-size: 13px;
     }
     a.topic {
-        background: #5cb860;
+        background: lightskyblue;
         padding: 1px 10px 0;
         border-radius: 30px;
         text-decoration: none;
@@ -166,7 +172,7 @@
     }
 
     a.topic:hover {
-        background: #259;
+        background: #5cb860;
         color: #fff;
         text-decoration: none;
     }

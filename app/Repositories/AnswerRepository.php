@@ -13,13 +13,18 @@ use App\Model\Answer;
 
 class AnswerRepository
 {
+    /**
+     * 关联回答的用户、评论、以及评论的用户
+     * @param $id
+     * @return mixed
+     */
     public function getAnswer($id)
     {
         $where = [
             'question_id' => $id,
             'is_hidden'   => 'F',
         ];
-        return Answer::where($where)->latest()->paginate(10);
+        return Answer::where($where)->with('user','comments')->latest()->paginate(10);
     }
 
     /**
@@ -40,5 +45,11 @@ class AnswerRepository
     public function byId($id)
     {
         return Answer::find($id);
+    }
+
+    public function getAnswerCommentsById($id)
+    {
+        $answer = Answer::with(['comments','comments.user'])->where('id', $id)->first();
+        return $answer->comments;
     }
 }
