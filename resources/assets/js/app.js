@@ -36,7 +36,6 @@ axios.interceptors.request.use(function (config) {
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(ElementUI);
-Vue.use(VueBetterScroll);
 Vue.use(VueQuillEditor);
 Vue.component('app',App);
 
