@@ -19,6 +19,10 @@ class QuestionController extends Controller
         $this->topicRepository = $topicRepository;
     }
 
+    public function index()
+    {
+        //独家记忆 exclusive memory
+    }
 
     /**
      * 发布问题
@@ -43,6 +47,7 @@ class QuestionController extends Controller
     }
 
     /**
+     * 展示问题
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -56,6 +61,11 @@ class QuestionController extends Controller
         ],200);
     }
 
+    /**
+     * 修改问题
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update($id)
     {
         $question = $this->questionRepository->byId($id);
@@ -71,6 +81,21 @@ class QuestionController extends Controller
         return response()->json([
             'status'  => true,
             'message' => '问题修改成功'
+        ],200);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $question = $this->questionRepository->byId($id);
+        $question->delete();
+
+        return response()->json([
+           'status'  => true,
+           'message' => '问题删除成功'
         ],200);
     }
 }

@@ -12,28 +12,14 @@
                     <div class="media-body">
                         <h5 class="media-heading">{{question.user.name}}</h5>
                         <h6>{{question.created_at | ago()}} 提问</h6>
-                        <p style="margin-left: -80px;margin-top:20px">
-                            <question-follow-button :question="question.id"></question-follow-button>
-                            <button class="btn btn-dark btn-sm">收藏</button>
-                            <el-button
-                                    type="text"
-                                    icon="el-icon-edit"
-                                    @click="is_comment=!is_comment"
-                            >评论 {{Object.keys(question.comments).length}}</el-button>
-                        </p>
+                        <user-follow-button></user-follow-button>
                     </div>
-                </div>
-                <div class="answer-comments" v-if="is_comment">
-                    <comment
-                            type="question"
-                            :model="question.id"
-                    ></comment>
                 </div>
             </div>
         </div>
         <div class="container" v-if="question">
             <div class="row">
-                <div class="col-md-9" role="main">
+                <div class="col-md-12" role="main">
                     <div class="post-topheader__info">
                         <h1 class="h2 post-topheader__info--title">
                             <span href="">{{question.title}}</span>
@@ -46,16 +32,45 @@
                         <span>666次浏览</span>
                     </div>
                     <div class="card-body">
-                        <div class="question fmt">
+                        <div class="question">
                             <p v-html="question.body"></p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="visit">
+                            <question-follow-button :question="question.id"></question-follow-button>
+                            <button class="btn btn-dark btn-sm">收藏</button>
+                            <button
+                                    class="btn btn-primary btn-sm"
+                                    @click="is_comment=!is_comment"
+                            ><i class="el-icon-edit"></i> 评论 {{Object.keys(question.comments).length}}</button>
+                            <button
+                                    class="btn btn-success btn-sm"
+                                    @click="is_answer=!is_answer"
+                            >回答</button>
+                            <el-dropdown trigger="click">
+                                <button class="btn btn-sm btn-secondary">
+                                    更多<i class="el-icon-arrow-down el-icon--right"></i>
+                                </button>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item>编辑</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                        <div class="question-comments" v-if="is_comment">
+                            <comment
+                                    type="question"
+                                    :model="question.id"
+                            ></comment>
+                        </div>
+                        <div class="question-answer" v-if="is_answer">
+                            <answer-create :question="question.id"></answer-create>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <div>
-                    <answer-create :question="question.id"></answer-create>
-                </div>
                 <answer-show></answer-show>
             </div>
         </div>
@@ -68,10 +83,12 @@
     import Comment from '../comment/Comment'
     import {mapState} from 'vuex'
     import QuestionFollowButton from './QuestionFollowButton'
+    import UserFollowButton from './UserFollowButton'
     export default {
         name: "Show",
         components:{
             QuestionFollowButton,
+            UserFollowButton,
             AnswerCreate,
             AnswerShow,
             Comment
@@ -80,6 +97,7 @@
             return {
                 question: null,
                 is_comment: false,
+                is_answer: false,
             }
         },
         filters: {
@@ -102,7 +120,7 @@
 
 <style scoped>
     .jumbotron{
-        background-color: #AEDD81;
+        background-color: #5cb860;
     }
     .media,.media-body{
         overflow: inherit;
@@ -161,7 +179,7 @@
         font-size: 13px;
     }
     a.topic {
-        background: lightskyblue;
+        background: #5cb860;
         padding: 1px 10px 0;
         border-radius: 30px;
         text-decoration: none;
@@ -170,10 +188,19 @@
         white-space: nowrap;
         cursor: pointer;
     }
-
     a.topic:hover {
-        background: #5cb860;
+        background: lightskyblue;
         color: #fff;
         text-decoration: none;
+    }
+    .visit {
+        margin-left: 20px;
+    }
+    .question-comments {
+        margin-left: 20px;
+        margin-top: 5px;
+    }
+    .question-answer {
+        margin-top: 5px;
     }
 </style>

@@ -17,7 +17,6 @@ import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import VueBetterScroll from 'vue2-better-scroll';
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -37,7 +36,6 @@ axios.interceptors.request.use(function (config) {
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(ElementUI);
-Vue.use(VueBetterScroll);
 Vue.use(VueQuillEditor);
 Vue.component('app',App);
 

@@ -6,14 +6,15 @@
                 <p>── <a href="">{{comment.user.name}}</a> ─ {{comment.created_at | ago}}</p>
             </li>
         </ul>
-        <div class="comment-input">
+        <div class="comment-input container-fluid">
             <el-input
+                    class="col-md-9"
                     type="textarea"
                     :rows="1"
                     v-model="body"
                     placeholder="使用评论询问更多信息或提出修改意见，请不要在评论里回答问题"
             ></el-input>
-            <el-button @click="store">提交评论</el-button>
+            <el-button class="col-md-2" @click="store">提交评论</el-button>
         </div>
     </div>
 </template>
@@ -68,7 +69,8 @@
 
 <style scoped>
     .comment-input {
-        display: block;
+        display: inline-block;
+        margin-left: -50px;
     }
     li {
         display: inline-block;

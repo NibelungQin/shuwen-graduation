@@ -31,6 +31,7 @@ class User extends Authenticatable
     ];
 
     /**
+     * 进行用户与问题关联
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function follows()
@@ -39,6 +40,7 @@ class User extends Authenticatable
     }
 
     /**
+     * 进行用户与问题关联操作
      * @param $question
      * @return array
      */
@@ -48,12 +50,28 @@ class User extends Authenticatable
     }
 
     /**
+     * 判断用户是否关注问题
      * @param $question
      * @return bool
      */
     public function followed($question)
     {
         return !!$this->follows()->where('question_id', $question)->count();
+    }
+
+    public function votes()
+    {
+        return $this->belongsToMany(Answer::class,'votes')->withTimestamps();
+    }
+
+    public function voteFor($answer)
+    {
+        return $this->votes()->toggle($answer);
+    }
+
+    public function hasVotedFor($answer)
+    {
+        return !!$this->votes()->where('answer_id', $answer)->count();
     }
 
     public function answers()

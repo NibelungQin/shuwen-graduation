@@ -36,6 +36,9 @@ Route::get('/answer/{id}/comment','CommentController@answer');
 Route::get('/question/{id}/comment','CommentController@question');
 Route::post('/comment','CommentController@store');
 
+Route::post('/answer/{id}/votes/users','VoteController@voted');
+Route::post('/answer/vote','VoteController@voteThisAnswer');
+
 Route::get('/topics','TopicController@index');
 
 Route::post('/upload/img','UploadController@image');

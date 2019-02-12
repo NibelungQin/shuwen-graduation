@@ -14,7 +14,7 @@
         data() {
             return {
                 followed: true,
-                count: null,
+                count: 0,
             }
         },
         mounted(){

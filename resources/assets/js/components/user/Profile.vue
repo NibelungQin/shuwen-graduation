@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <div class="card">
             <ul class="list-group">
                 <li class="list-group-item">

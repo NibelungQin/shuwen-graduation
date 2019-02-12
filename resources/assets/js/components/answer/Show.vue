@@ -2,18 +2,17 @@
     <div>
         <span><h3>{{this.pagination.total}}个回答</h3></span>
         <div class="card-footer">
-            <ul v-for="answer in answers">
+            <ul v-for="answer in answers" v-bind:key="answer.id">
                 <li>
                     <div class="media">
                         <div>
-                            <user-vote-button></user-vote-button>
+                            <user-vote-button :answer="answer.id" :number="answer.votes_count"></user-vote-button>
                         </div>
                         <div class="media-body">
                             <span v-html="answer.body"></span>
                             <div>
                                 <div class="answer-left">
                                     <el-button
-                                            v-bind:key="answer.id"
                                             type="text"
                                             icon="el-icon-edit"
                                             @click="is_comment=!is_comment"
@@ -32,7 +31,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="answer-comments" v-if="is_comment">
+                                <div class="answer-comments" v-bind:key="answer.id" v-if="is_comment">
                                     <comment
                                         type="answer"
                                         :model="answer.id"
@@ -43,7 +42,12 @@
                     </div>
                 </li>
             </ul>
-            <el-button type="text" class="more" @click="more">加载更多</el-button>
+            <div class="more">
+                <el-button type="text" @click="more">
+                    加载更多
+                    <i class="el-icon-caret-bottom el-icon--right"></i>
+                </el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -128,5 +132,9 @@
     .answer-comments {
         margin-left: 20px;
         margin-top: 5px;
+    }
+    .more {
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>

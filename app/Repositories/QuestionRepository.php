@@ -43,6 +43,11 @@ class QuestionRepository
         return Question::create($attributes);
     }
 
+    /**
+     * 获得问题关联的评论及其评论的用户信息
+     * @param $id
+     * @return mixed
+     */
     public function getQuestionCommentsById($id)
     {
         $question = Question::with(['comments', 'comments.user'])->where('id', $id)->first();
