@@ -12,7 +12,7 @@
                     <div class="media-body">
                         <h5 class="media-heading">{{question.user.name}}</h5>
                         <h6>{{question.created_at | ago()}} 提问</h6>
-                        <user-follow-button></user-follow-button>
+                        <user-follow-button :user="question.user.id"></user-follow-button>
                     </div>
                 </div>
             </div>

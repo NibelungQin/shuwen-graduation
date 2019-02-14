@@ -59,19 +59,48 @@ class User extends Authenticatable
         return !!$this->follows()->where('question_id', $question)->count();
     }
 
+    /**
+     * 用户与回答关联表
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function votes()
     {
         return $this->belongsToMany(Answer::class,'votes')->withTimestamps();
     }
 
+    /**
+     * 进行用户与回答关联操作
+     * @param $answer
+     * @return array
+     */
     public function voteFor($answer)
     {
         return $this->votes()->toggle($answer);
     }
 
+    /**
+     * 判断是否用户与回答已关联
+     * @param $answer
+     * @return bool
+     */
     public function hasVotedFor($answer)
     {
         return !!$this->votes()->where('answer_id', $answer)->count();
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(self::class,'followers','follower_id','followed_id')->withTimestamps();
+    }
+
+    public function followersUser()
+    {
+        return $this->belongsToMany(self::class,'followers','followed_id','follower_id')->withTimestamps();
+    }
+
+    public function followThisUser($user)
+    {
+        return $this->followers()->toggle($user);
     }
 
     public function answers()

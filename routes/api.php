@@ -39,6 +39,9 @@ Route::post('/comment','CommentController@store');
 Route::post('/answer/{id}/votes/users','VoteController@voted');
 Route::post('/answer/vote','VoteController@voteThisAnswer');
 
+Route::get('/user/followers/{id}','FollowController@index');
+Route::post('/user/follow','FollowController@follow');
+
 Route::get('/topics','TopicController@index');
 
 Route::post('/upload/img','UploadController@image');
