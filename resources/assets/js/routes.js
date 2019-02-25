@@ -45,6 +45,18 @@ let routes = [
         meta: {}
     },
     {
+        path: '/notifications',
+        name: 'notifications',
+        component: require('./components/notification/Index'),
+        meta: {requireAuth: true}
+    },
+    {
+        path: '/inbox',
+        name: 'inbox',
+        component: require('./components/inbox/Index'),
+        meta: {requireAuth: true}
+    },
+    {
         path: '/book/category',
         name: 'bookCategory',
         component: require('./components/category/BookCategory'),

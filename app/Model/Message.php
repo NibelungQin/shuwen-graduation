@@ -19,4 +19,34 @@ class Message extends Model
     {
         return $this->belongsTo(User::class,'to_user_id');
     }
+
+    public function newCollection(array $models = [])
+    {
+        return new MessageCollection($models);
+    }
+
+    public function markAsRead()
+    {
+        if (is_null($this->read_at)){
+            $this->forceFill(['has_read'=>'T','read_at'=>$this->freshTimestamp()])->save();
+        }
+    }
+
+    public function read()
+    {
+        return $this->read_at === 'T';
+    }
+
+    public function unread()
+    {
+        return $this->read_at === 'F';
+    }
+
+    public function shouldAddUnreadClass()
+    {
+        if (\user('api')->id === $this->from_user_id){
+            return false;
+        }
+        return $this->unread();
+    }
 }

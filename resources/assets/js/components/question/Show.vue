@@ -13,6 +13,7 @@
                         <h5 class="media-heading">{{question.user.name}}</h5>
                         <h6>{{question.created_at | ago()}} 提问</h6>
                         <user-follow-button :user="question.user.id"></user-follow-button>
+                        <send-message :user="question.user.id"></send-message>
                     </div>
                 </div>
             </div>
@@ -84,11 +85,13 @@
     import {mapState} from 'vuex'
     import QuestionFollowButton from './QuestionFollowButton'
     import UserFollowButton from './UserFollowButton'
+    import SendMessage from '../message/SendMessage'
     export default {
         name: "Show",
         components:{
             QuestionFollowButton,
             UserFollowButton,
+            SendMessage,
             AnswerCreate,
             AnswerShow,
             Comment

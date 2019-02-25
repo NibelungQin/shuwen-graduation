@@ -42,6 +42,16 @@ Route::post('/answer/vote','VoteController@voteThisAnswer');
 Route::get('/user/followers/{id}','FollowController@index');
 Route::post('/user/follow','FollowController@follow');
 
+Route::post('/message/store','MessageController@store');
+Route::get('/notifications','NotificationController@index');
+Route::post('/notifications/unread','NotificationController@unread');
+
+Route::get('/inbox','InboxController@index');
+Route::get('/inbox/first','InboxController@firstMessage');
+Route::get('/inbox/last','InboxController@lastMessage');
+Route::get('/inbox/from','InboxController@fromUser');
+Route::get('/inbox/to','InboxController@toUser');
+
 Route::get('/topics','TopicController@index');
 
 Route::post('/upload/img','UploadController@image');
