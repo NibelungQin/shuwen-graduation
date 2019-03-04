@@ -22,30 +22,11 @@ class InboxController extends Controller
     {
         $messages = $this->messageRepository->getAllMessages();
         $messages = $messages->groupBy('dialog_id');
-        return response()->json(['messages'=>$messages->groupBy('dialog_id')]);
+        return response()->json(['messages'=>$messages]);
     }
 
-    public function firstMessage()
+    public function show()
     {
-        $message = \request('message');
-        $first = $message->first();
-    }
-
-    public function lastMessage()
-    {
-        $message = \request('message');
-        $last = $message->last();
-    }
-
-    public function fromUser()
-    {
-        $message = \request('message');
-        $toUser = $message->last()->fromUser();
-    }
-
-    public function toUser()
-    {
-        $message = \request('message');
-        $toUser = $message->last()->toUser();
+        return 2333;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QuestionCreated;
+use App\Events\QuestionViewEvent;
 use App\Repositories\QuestionRepository;
 use App\Repositories\TopicRepository;
 use Illuminate\Http\Request;
@@ -19,9 +21,18 @@ class QuestionController extends Controller
         $this->topicRepository = $topicRepository;
     }
 
+    /**
+     * 获得所有问题
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
-        //独家记忆 exclusive memory
+        $page = \request('page',0);
+        $questions = $this->questionRepository->getQuestionFeed($page-1);
+        return response()->json([
+            'questions'=>$questions['questions'],
+            'count'=>$questions['count']
+        ]);
     }
 
     /**
@@ -40,6 +51,9 @@ class QuestionController extends Controller
         $question = $this->questionRepository->create($data);
         $question->topics()->attach($topics);
 
+        //当创建新的问题时发送广播
+        event(new QuestionCreated($question));
+
         return response()->json([
             'status' => true,
             'msg'    => '问题创建成功'
@@ -54,6 +68,10 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = $this->questionRepository->byIdWithTopicAndUser($id);
+        //获取客户端请求的IP
+        $ip = \request()->getClientIp();
+        //触发浏览次数统计时间
+        event(new QuestionViewEvent($question,$ip));
         return response()->json([
             'status'  => true,
             'data'    => $question,

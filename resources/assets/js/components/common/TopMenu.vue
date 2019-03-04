@@ -37,13 +37,15 @@
                             {{user.name}} <span class="caret"></span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <li><a href="/user/avatar"><i class="fa fa-user">个人中心</i></a></li>
+                            <li><router-link :to="{name: 'notifications'}">消息</router-link></li>
                             <a @click.prevent="logout" class="dropdown-item" href="">
                                 退出
                             </a>
-
-                        </div>
+                        </ul>
                     </li>
+                    <li v-if="user.authenticated"><img :src="user.avatar" id="firstAvatar" class="rounded-circle" width="50" height="50" alt=""></li>
                 </ul>
             </div>
         </div>

@@ -18,7 +18,7 @@ class NotificationController extends Controller
         $notifications = collect($notifications)->map(function ($notification){
             $notification['type'] = class_basename($notification->type);
             return $notification;
-        });
+        })->toArray();
         return response()->json(['notifications'=>$notifications]);
     }
 

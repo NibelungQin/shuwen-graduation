@@ -21,6 +21,12 @@ let routes = [
         meta: {requireGuest: true}
     },
     {
+        path: '/questions',
+        name: 'questions',
+        component: require('./components/question/Index'),
+        meta: {}
+    },
+    {
         path: '/questions/create',
         name: 'questionCreate',
         component: require('./components/question/Create'),
@@ -54,6 +60,12 @@ let routes = [
         path: '/inbox',
         name: 'inbox',
         component: require('./components/inbox/Index'),
+        meta: {requireAuth: true}
+    },
+    {
+        path: '/inbox/:id',
+        name: 'inboxShow',
+        component: require('./components/inbox/Show'),
         meta: {requireAuth: true}
     },
     {

@@ -30,7 +30,7 @@
                                 <a class="topic">{{topic.name}} </a>
                             </li>
                         </ul>
-                        <span>666次浏览</span>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">{{question.view_count}}次浏览</span>
                     </div>
                     <div class="card-body">
                         <div class="question">
@@ -55,7 +55,9 @@
                                     更多<i class="el-icon-arrow-down el-icon--right"></i>
                                 </button>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>编辑</el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <router-link :to="{name: 'questionEdit'}">编辑</router-link>
+                                    </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </div>

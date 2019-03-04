@@ -22,6 +22,7 @@ Route::post('/login','Auth\LoginController@login');
 Route::post('/logout','Auth\LoginController@logout');
 Route::post('/token/refresh','Auth\LoginController@refresh');
 
+Route::get('/questions','QuestionController@index');
 Route::post('/questions','QuestionController@store');
 Route::get('/questions/{id}','QuestionController@show');
 Route::post('/questions/{id}','QuestionController@update');
@@ -45,12 +46,10 @@ Route::post('/user/follow','FollowController@follow');
 Route::post('/message/store','MessageController@store');
 Route::get('/notifications','NotificationController@index');
 Route::post('/notifications/unread','NotificationController@unread');
+Route::get('notifications/{notification}','NotificationsController@show');
 
 Route::get('/inbox','InboxController@index');
-Route::get('/inbox/first','InboxController@firstMessage');
-Route::get('/inbox/last','InboxController@lastMessage');
-Route::get('/inbox/from','InboxController@fromUser');
-Route::get('/inbox/to','InboxController@toUser');
+Route::get('inbox/{dialogId}','InboxController@show');
 
 Route::get('/topics','TopicController@index');
 

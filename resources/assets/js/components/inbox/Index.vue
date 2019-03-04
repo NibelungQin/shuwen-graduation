@@ -9,7 +9,7 @@
                             <div class="media" :class="{'unread' : read}">
                                 <div>
                                     <a href="#">
-                                        <img class="rounded-circle" alt="">{{last(message)}}
+                                        <img class="rounded-circle" :src="message[0].from_user.avatar" alt="" style="width:30px">
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -30,7 +30,8 @@
         name: "Index",
         data() {
             return {
-                messages: [1,2,3]
+                messages: [],
+                read: true
             }
         },
         computed:mapState({
@@ -38,14 +39,11 @@
         }),
         mounted() {
             axios.get('/api/inbox').then(response=>{
-
+                this.messages = response.data.messages
             })
         },
         methods: {
-            last(last){
-                // axios.post('/api/inbox/last')
-                return last;
-            }
+
         }
     }
 </script>

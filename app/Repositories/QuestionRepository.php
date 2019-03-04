@@ -23,6 +23,13 @@ class QuestionRepository
         return Question::where('id',$id)->with(['topics','comments','user'])->first();
     }
 
+    public function getQuestionFeed($page=0)
+    {
+        $count = count(Question::all());
+        $questions = Question::latest('created_at')->with('user')->offset($page)->limit(10)->get();
+        return ['count'=>$count, 'questions'=>$questions];
+    }
+
     /**
      * 获得问题
      * @param $id

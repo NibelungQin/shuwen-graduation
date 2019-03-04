@@ -1,8 +1,5 @@
 <template>
-    <li
-            class="notifications "
-            v-bind:class="{'unread' : read}"
-    >
+    <li class="notifications " v-bind:class="{'unread' : read}">
         <a :href="notification.data.name">
             {{notification.data.name}}
         </a>关注了你

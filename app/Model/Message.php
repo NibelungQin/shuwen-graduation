@@ -20,11 +20,6 @@ class Message extends Model
         return $this->belongsTo(User::class,'to_user_id');
     }
 
-    public function newCollection(array $models = [])
-    {
-        return new MessageCollection($models);
-    }
-
     public function markAsRead()
     {
         if (is_null($this->read_at)){

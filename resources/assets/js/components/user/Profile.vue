@@ -3,7 +3,7 @@
         <div class="card">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <img class="img-circle" :src="user.avatar" alt="" style="width: 50px">
+                    <img class="rounded-circle" :src="user.avatar" alt="" style="width: 50px">
                     <el-button type="success">更改头像</el-button>
                 </li>
                 <li class="list-group-item">
