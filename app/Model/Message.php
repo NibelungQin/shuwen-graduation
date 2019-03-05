@@ -27,6 +27,11 @@ class Message extends Model
         }
     }
 
+    public function newCollection(array $models = [])
+    {
+        return new MessageCollection($models);
+    }
+
     public function read()
     {
         return $this->read_at === 'T';

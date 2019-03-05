@@ -55,7 +55,7 @@
                                     更多<i class="el-icon-arrow-down el-icon--right"></i>
                                 </button>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>
+                                    <el-dropdown-item v-if="user.id == question.user_id">
                                         <router-link :to="{name: 'questionEdit'}">编辑</router-link>
                                     </el-dropdown-item>
                                 </el-dropdown-menu>

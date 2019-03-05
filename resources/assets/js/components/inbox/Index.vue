@@ -9,11 +9,24 @@
                             <div class="media" :class="{'unread' : read}">
                                 <div>
                                     <a href="#">
-                                        <img class="rounded-circle" :src="message[0].from_user.avatar" alt="" style="width:30px">
+                                        <img v-if="user.id == message[0].to_user_id" class="rounded-circle" :src="message[0].from_user.avatar" alt="" style="width:50px">
+                                        <img v-else class="rounded-circle" :src="message[0].to_user.avatar" alt="" style="width:50px">
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4></h4>
+                                    <h4>
+                                        <a href="" v-if="user.id == message[0].to_user_id">
+                                            {{message[0].to_user.name}}
+                                        </a>
+                                        <a href="" v-else>
+                                            {{message[0].from_user.name}}
+                                        </a>
+                                    </h4>
+                                    <p>
+                                        <a href="}">
+                                            {{message[0].body}}
+                                        </a>
+                                    </p>
                                 </div>
                             </div>
                         </div>

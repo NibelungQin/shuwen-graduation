@@ -1,6 +1,6 @@
 <template>
     <li class="notifications" v-bind:class="{'unread' : read}">
-        <a :href="read ? '/notifications/'+notification.id+'?redirect_url=/inbox/'+notification.data.dialog_id : '/inbox/'+notification.data.dialog_id">
+        <a @click="about">
             {{notification.data.name}}给你发送了一条私信
         </a>
     </li>
@@ -12,7 +12,7 @@
         props: ['notification'],
         data() {
             return {
-                read: true
+                read: true,
             }
         },
         mounted() {
@@ -21,6 +21,18 @@
             }).then(response=>{
                 this.read = response.data.read
             })
+        },
+        methods: {
+            about(){
+                if (this.read){
+                    axios.get('/api/notifications/' + this.notification.id)
+                        .then(response=>{
+                            this.$router.push({name: 'inboxShow', params: {id: this.notification.data.dialog_id}})
+                        })
+                } else {
+                    this.$router.push({name: 'inboxShow', params: {id: this.notification.data.dialog_id}})
+                }
+            }
         }
     }
 </script>
@@ -34,7 +46,6 @@
         border-top: 1px dotted #eee;
         background: transparent;
     }
-
     .notifications.unread {
         background: #fff9ea;
     }

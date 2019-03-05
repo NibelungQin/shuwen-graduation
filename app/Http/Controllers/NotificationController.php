@@ -36,9 +36,12 @@ class NotificationController extends Controller
         return response()->json(['read'=>false]);
     }
 
+    /**
+     * 将未读通知标为已读
+     * @param DatabaseNotification $notification
+     */
     public function show(DatabaseNotification $notification)
     {
         $notification->markAsRead();
-        return redirect(\Illuminate\Support\Facades\Request::query('redirect_url'));
     }
 }

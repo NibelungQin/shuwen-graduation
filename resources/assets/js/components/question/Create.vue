@@ -118,7 +118,7 @@
                     body: this.formData.body
                 }
                 axios.post('/api/questions',data).then(response => {
-
+                    this.$router.push({name: 'questions'})
                 })
             },
             onEditorBlur(){//失去焦点事件

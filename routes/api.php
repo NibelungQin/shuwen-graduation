@@ -46,10 +46,11 @@ Route::post('/user/follow','FollowController@follow');
 Route::post('/message/store','MessageController@store');
 Route::get('/notifications','NotificationController@index');
 Route::post('/notifications/unread','NotificationController@unread');
-Route::get('notifications/{notification}','NotificationsController@show');
+Route::get('/notifications/{notification}','NotificationController@show');
 
 Route::get('/inbox','InboxController@index');
 Route::get('inbox/{dialogId}','InboxController@show');
+Route::post('inbox/{dialogId}/store','InboxController@store');
 
 Route::get('/topics','TopicController@index');
 

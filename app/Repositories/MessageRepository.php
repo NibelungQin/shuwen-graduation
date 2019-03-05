@@ -18,7 +18,7 @@ class MessageRepository
      * @param array $attributes
      * @return mixed
      */
-    public function sotre(array $attributes)
+    public function create(array $attributes)
     {
         return Message::create($attributes);
     }
@@ -36,5 +36,22 @@ class MessageRepository
             },'toUser'=>function($query){
                 return $query->select(['id','name','avatar']);
             }])->latest()->get();
+    }
+
+    public function getDialogMessage($dialogId,$page=0)
+    {
+        $count = count(Message::where('dialog_id',$dialogId)->get());
+        $messages = Message::where('dialog_id',$dialogId)
+            ->with(['fromUser'=>function($query){
+                return $query->select(['id','name','avatar']);
+            },'toUser'=>function($query){
+                return $query->select(['id','name','avatar']);
+            }])->latest()->offset($page)->limit(10)->get();
+        return ['count'=>$count, 'messages'=>$messages];
+    }
+
+    public function getSingleMessage($dialogId)
+    {
+        return Message::where('dialog_id',$dialogId)->first();
     }
 }

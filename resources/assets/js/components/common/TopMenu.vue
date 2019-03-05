@@ -15,7 +15,13 @@
                         <a class="nav-link" href="/">首页</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/book/category">图书</a>
+                        <a class="nav-link" href="/posts">问章</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/questions">问心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/book/category">问书</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/questions/create">发起问题</a>
@@ -38,7 +44,7 @@
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <li><a href="/user/avatar"><i class="fa fa-user">个人中心</i></a></li>
+                            <li><router-link :to="{name: 'profile'}">个人中心</router-link></li>
                             <li><router-link :to="{name: 'notifications'}">消息</router-link></li>
                             <a @click.prevent="logout" class="dropdown-item" href="">
                                 退出
