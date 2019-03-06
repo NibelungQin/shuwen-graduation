@@ -94,6 +94,24 @@ let routes = [
         meta: {requireAuth: true}
     },
     {
+        path:'/chat',
+        name: 'chat',
+        component: require('./components/chat/Chat'),
+        meta: {requireAuth: true}
+    },
+    {
+        path:'/chat/item',
+        name: 'chatItem',
+        component: require('./components/chat/ChatItem'),
+        meta: {requireAuth: true}
+    },
+    {
+        path:'/chat/area',
+        name: 'chatArea',
+        component: require('./components/chat/ChatArea'),
+        meta: {requireAuth: true}
+    },
+    {
         path: '/bookcat/detail',
         name: 'bookcatDetail',
         component: require('./components/category/BookcatDetail')
