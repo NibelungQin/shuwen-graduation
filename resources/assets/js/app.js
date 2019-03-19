@@ -15,12 +15,18 @@ import jwtToken from './helpers/jwt'
 import App from './components/app';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import 'zico/css/zico.css'
 
 //添加头部用户认证信息
 axios.interceptors.request.use(function (config) {
@@ -36,6 +42,7 @@ axios.interceptors.request.use(function (config) {
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(ElementUI);
+Vue.use(iView);
 Vue.use(VueQuillEditor);
 Vue.component('app',App);
 

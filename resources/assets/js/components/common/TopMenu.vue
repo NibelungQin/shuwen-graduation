@@ -32,26 +32,60 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     <li v-if="!user.authenticated" class="nav-item">
-                        <router-link to="/login" class="nav-link">登录</router-link>
+                        <router-link to="/login" class="nav-link">
+                            <button class="white--text btn indigo">登录</button>
+                        </router-link>
                     </li>
                     <li v-if="!user.authenticated" class="nav-item">
-                        <router-link to="/register" class="nav-link">注册</router-link>
+                        <router-link to="/register" class="nav-link">
+                            <button class="white--text btn pink">注册</button>
+                        </router-link>
                     </li>
 
-                    <li v-if="user.authenticated" class="nav-item dropdown ">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{user.name}} <span class="caret"></span>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <li><router-link :to="{name: 'profile'}">个人中心</router-link></li>
-                            <li><router-link :to="{name: 'notifications'}">消息</router-link></li>
-                            <a @click.prevent="logout" class="dropdown-item" href="">
-                                退出
+                    <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
+                        <div class="uk-navbar-content">
+                            <a @click="jumpNotification">
+                                <Badge :count="count" :class="">
+                                    <Icon type="md-notifications" style="font-size:25px;color:#8590a6"></Icon>
+                                </Badge>
                             </a>
-                        </ul>
+                        </div>
+                    </li><!--<li v-if="user.authenticated"><img :src="user.avatar" id="firstAvatar"  class="rounded-circle" width="40" height="40" alt=""></li>-->
+                    <li v-if="user.authenticated" class="nav-item dropdown ">
+                        <Dropdown>
+                            <a href="javascript:void(0)">
+                                <img :src="user.avatar" class="avatar rounded-circle" style="width: 40px;height: 40px;background: #fff;padding: 3px;border: 1px solid #c5c5c5;">
+                                {{ user.name }}
+                                <Icon type="md-arrow-dropdown" />
+                                <b class="caret"></b>&nbsp;&nbsp;
+                            </a>
+                            <DropdownMenu slot="list">
+                                <router-link to="/users">
+                                    <DropdownItem>
+                                        <Icon type="md-person"></Icon>&nbsp;&nbsp;<span>个人中心</span>
+                                    </DropdownItem>
+                                </router-link>
+                                <router-link :to="'/users/' + user.name + '/edit'">
+                                    <DropdownItem>
+                                        <Icon type="md-settings"></Icon>&nbsp;<span>个人设置</span>
+                                    </DropdownItem>
+                                </router-link>
+                                <DropdownItem>
+                                    <div @click.prevent="logout">
+                                        <Icon type="md-log-out"></Icon>&nbsp;<span>退出登录</span>
+                                    </div>
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+
+                        <!--<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">-->
+                            <!--<li><router-link :to="{name: 'profile'}">个人中心</router-link></li>-->
+                            <!--<li><router-link :to="{name: 'notifications'}">消息</router-link></li>-->
+                            <!--<a @click.prevent="logout" class="dropdown-item" href="">-->
+                                <!--退出-->
+                            <!--</a>-->
+                        <!--</ul>-->
                     </li>
-                    <li v-if="user.authenticated"><img :src="user.avatar" id="firstAvatar" class="rounded-circle" width="50" height="50" alt=""></li>
                 </ul>
             </div>
         </div>
@@ -61,6 +95,11 @@
 <script>
     import {mapState} from 'vuex'
     export default {
+        data() {
+            return {
+                count: 0
+            }
+        },
         created(){
             this.$store.dispatch('setAuthUser');
         },
@@ -72,6 +111,10 @@
                 this.$store.dispatch('logoutRequest').then(response=>{
                     this.$router.push({name: 'home'})
                 })
+            },
+            jumpNotification() {
+                this.count = 0;
+                this.$router.push('/notifications');
             }
         }
     }
@@ -80,7 +123,7 @@
 <style scoped>
     .navbar{
         margin-bottom: 0;
-        padding: 2em;
+        padding: 0.8em;
     }
     .navbar-default .navbar-nav > .active > a{
         color: #555;
@@ -89,4 +132,45 @@
     .dropdown-menu li a{
         padding: 10px 20px;
     }
+    .indigo {
+        background-color: #3f51b5!important;
+        border-color: #3f51b5!important;
+    }
+    .white--text {
+        color: #fff!important;
+    }
+    .pink {
+        background-color: #e91e63!important;
+        border-color: #e91e63!important;
+    }
+    .uk-navbar-brand {
+        font-size: 20px;
+        color: #525255;
+        text-decoration: none;
+        box-sizing: border-box;
+        display: block;
+        height: 100%;
+        padding: 0 15px;
+        float: left;
+        position: relative;
+    }
+    .uk-navbar-flip {
+        float: right;
+        height:100%;
+        padding: 0.9em 1.5em;
+    }
+    .uk-navbar-content{
+        box-sizing: border-box;
+        height: 100%;
+        float: left;
+        position: relative;
+        font-size: 14px;
+    }
+    .uk-navbar-content:before, .uk-navbar-brand:before, .uk-navbar-toggle:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
 </style>

@@ -15,22 +15,28 @@
                 read: true,
             }
         },
-        mounted() {
-            axios.post('/api/notifications/unread',{
-                'notification': this.notification
-            }).then(response=>{
-                this.read = response.data.read
-            })
-        },
         methods: {
             about(){
                 if (this.read){
                     axios.get('/api/notifications/' + this.notification.id)
                         .then(response=>{
-                            this.$router.push({name: 'inboxShow', params: {id: this.notification.data.dialog_id}})
+                            console.log(this.notification.data.id)
+                            this.$router.push({
+                                name: 'inboxShow',
+                                params: {
+                                    id: this.notification.data.dialog_id,
+                                    userId: this.notification.data.id,
+                                }
+                            })
                         })
                 } else {
-                    this.$router.push({name: 'inboxShow', params: {id: this.notification.data.dialog_id}})
+                    this.$router.push({
+                        name: 'inboxShow',
+                        params: {
+                            id: this.notification.data.dialog_id,
+                            userId: this.notification.data.id,
+                        }
+                    })
                 }
             }
         }

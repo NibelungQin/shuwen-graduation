@@ -23,7 +23,7 @@
                                         </a>
                                     </h4>
                                     <p>
-                                        <a href="}">
+                                        <a :href="/inbox/+ message[0].dialog_id">
                                             {{message[0].body}}
                                         </a>
                                     </p>

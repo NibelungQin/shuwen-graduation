@@ -4,6 +4,7 @@ namespace App;
 
 use App\Model\Answer;
 use App\Model\Chat;
+use App\Model\Post;
 use App\Model\Question;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -109,8 +110,28 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
     public function chats()
     {
         return $this->hasMany(Chat::class);
+    }
+
+    public function senders()
+    {
+        return $this->belongsToMany(self::class,'friends','sender_id','receiver_id')->withTimestamps();
+    }
+
+    public function receivers()
+    {
+        return $this->belongsToMany(self::class,'friends','receiver_id','sender_id')->withTimestamps();
+    }
+
+    public function acceptThisUser($user)
+    {
+        return $this->receivers()->toggle($user);
     }
 }

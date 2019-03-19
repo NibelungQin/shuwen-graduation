@@ -36,7 +36,14 @@ class CommentController extends Controller
 
     public function getModelNameFromType($type)
     {
-        return $type === 'question' ? 'App\Model\Question' : 'App\Model\Answer';
+        if ($type === 'question'){
+            return 'App\Model\Question';
+        }elseif ($type === 'answer'){
+            return 'App\Model\Answer';
+        }else{
+            return 'App\Model\Post';
+        }
+//        return $type === 'question' ? 'App\Model\Question' : 'App\Model\Answer';
     }
 
     public function answer($id)

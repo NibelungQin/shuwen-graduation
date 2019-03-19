@@ -11,7 +11,7 @@
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading">{{question.user.name}}</h5>
-                        <h6>{{question.created_at | ago()}} 提问</h6>
+                        <h6>{{question.created_at | formatDate}} 提问</h6>
                         <user-follow-button :user="question.user.id"></user-follow-button>
                         <send-message :user="question.user.id"></send-message>
                     </div>
@@ -107,9 +107,14 @@
         },
         filters: {
             //将时间转化为Y-m-d
-            ago (date) {
-                var d = new Date(date);
-                return d.getFullYear()+ '-' + (d.getMonth()+1)+ '-' +d.getDate();
+            formatDate: function (value) {
+                let date = new Date(value);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                return y + '-' + MM + '-' + d;
             }
         },
         computed:mapState({

@@ -7,20 +7,6 @@
             <div class="new-msg"></div>
             <div class="name">群聊</div>
         </div>
-        <div class="chat-item current">
-            <div class="avatar">
-                <img src="/images/avatars/matt-1.jpg" alt="">
-            </div>
-            <div class="new-msg"></div>
-            <div class="name">群聊</div>
-        </div>
-        <div class="chat-item current">
-            <div class="avatar">
-                <img src="/images/avatars/matt-1.jpg" alt="">
-            </div>
-            <div class="new-msg"></div>
-            <div class="name">群聊</div>
-        </div>
     </div>
 </template>
 

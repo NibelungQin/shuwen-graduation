@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="theme-light">
         <top-menu></top-menu>
         <transition name="fade" mode="out-in">
             <router-view></router-view>
@@ -26,5 +26,7 @@
 </script>
 
 <style scoped>
-
+    .theme-light{
+        background: #f5f5f1!important;
+    }
 </style>

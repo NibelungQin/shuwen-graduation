@@ -1,102 +1,51 @@
 <template>
-    <div>
-        <div class="jumbotron">
-            <!--使用v-if防止未渲染前先获得了question数据而报错 -->
-            <div class="container" v-if="question">
-                <div class="media">
-                    <div>
-                        <a href="#">
-                            <img class="rounded-circle" :src="question.user.avatar" alt="64x64" style="height: 64px ;width: 64px">
-                        </a>
+    <main class="main-content">
+        <div class="content--wrap">
+            <div class="container">
+                <div class="col-md-10 offset-md-1" v-if="question">
+                    <h1 class="article-title">{{question.title}}</h1>
+                    <div class="meta">
+                        <div class="user-card">
+                            <a href="">
+                                <img class="rounded-circle" :src="question.user.avatar" alt="64x64" style="height: 30px ;width: 30px">
+                            </a>
+                            <h4>
+                                <a href="#" class="" style="color: rgb(21, 185, 130);">{{question.user.name}}</a>
+                            </h4>
+                            <time style="vertical-align: middle; font-size: 12px; color: rgb(155, 155, 155);">发表于 {{question.created_at | ago()}}</time>
+                        </div>
+                        <div class="actions">
+                            <i class="zi zi_tag"></i>
+                            <a v-for="topic in question.topics">{{topic.name}} </a>
+                        </div>
                     </div>
-                    <div class="media-body">
-                        <h5 class="media-heading">{{question.user.name}}</h5>
-                        <h6>{{question.created_at | ago()}} 提问</h6>
-                        <user-follow-button :user="question.user.id"></user-follow-button>
-                        <send-message :user="question.user.id"></send-message>
+                    <div class="card" style="height: auto">
+                        <div class="card__text markdown elevation-8" style="padding: 15px 20px 1px 30px">
+                            <div v-html="question.body"></div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <post-comment></post-comment>
+                    </div>
+                    <div>
+                        <submit-comment></submit-comment>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container" v-if="question">
-            <div class="row">
-                <div class="col-md-12" role="main">
-                    <div class="post-topheader__info">
-                        <h1 class="h2 post-topheader__info--title">
-                            <span href="">{{question.title}}</span>
-                        </h1>
-                        <ul class="taglist--inline inline-block question__title--tag" v-for="topic in question.topics">
-                            <li class="tagPopup">
-                                <a class="topic">{{topic.name}} </a>
-                            </li>
-                        </ul>
-                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">{{question.view_count}}次浏览</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="question">
-                            <p v-html="question.body"></p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="visit">
-                            <question-follow-button :question="question.id"></question-follow-button>
-                            <button class="btn btn-dark btn-sm">收藏</button>
-                            <button
-                                    class="btn btn-primary btn-sm"
-                                    @click="is_comment=!is_comment"
-                            ><i class="el-icon-edit"></i> 评论 {{Object.keys(question.comments).length}}</button>
-                            <button
-                                    class="btn btn-success btn-sm"
-                                    @click="is_answer=!is_answer"
-                            >回答</button>
-                            <el-dropdown trigger="click">
-                                <button class="btn btn-sm btn-secondary">
-                                    更多<i class="el-icon-arrow-down el-icon--right"></i>
-                                </button>
-                                <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item v-if="user.id == question.user_id">
-                                        <router-link :to="{name: 'questionEdit'}">编辑</router-link>
-                                    </el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
-                        </div>
-                        <div class="question-comments" v-if="is_comment">
-                            <comment
-                                    type="question"
-                                    :model="question.id"
-                            ></comment>
-                        </div>
-                        <div class="question-answer" v-if="is_answer">
-                            <answer-create :question="question.id"></answer-create>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <answer-show></answer-show>
-            </div>
-        </div>
-    </div>
+    </main>
 </template>
 
 <script>
-    import AnswerCreate from '../answer/Create'
-    import AnswerShow from  '../answer/Show'
-    import Comment from '../comment/Comment'
+    import moment from 'moment'
+    import PostComment from  '../comment/PostComment'
+    import SubmitComment from '../comment/SubmitComment'
     import {mapState} from 'vuex'
-    import QuestionFollowButton from './QuestionFollowButton'
-    import UserFollowButton from './UserFollowButton'
-    import SendMessage from '../message/SendMessage'
     export default {
         name: "Show",
         components:{
-            QuestionFollowButton,
-            UserFollowButton,
-            SendMessage,
-            AnswerCreate,
-            AnswerShow,
-            Comment
+            PostComment,
+            SubmitComment
         },
         data() {
             return {
@@ -106,15 +55,16 @@
             }
         },
         filters: {
-            //将时间转化为Y-m-d
-            ago (date) {
-                var d = new Date(date);
-                return d.getFullYear()+ '-' + (d.getMonth()+1)+ '-' +d.getDate();
+            //过滤时间距离更新时间有多久
+            ago (time) {
+                return moment(time).fromNow()
             }
         },
-        computed:mapState({
-            user: state=>state.AuthUser
-        }),
+        computed: {
+            ...mapState({
+                user: state=>state.AuthUser
+            })
+        },
         created(){
             axios.get('/api/questions/' + this.$route.params.id).then(response=>{
                 this.$set(this, 'question', response.data.data)
@@ -124,88 +74,63 @@
 </script>
 
 <style scoped>
-    .jumbotron{
-        background-color: #5cb860;
+    .main-content {
+        padding: 25px 0!important;
     }
-    .media,.media-body{
-        overflow: inherit;
-        padding-top: 8px;
+    .content--wrap {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        max-width: 100%;
     }
-    .rounded-circle{
-        box-shadow: rgba(255,255,255,1) 0 0 0 3px,rgba(255,255,255,1) 0 0 1px 3px;
-    }
-    .media-conversation-replies a {
-        font-weight: 700;
-        display: block;
+    .article-title {
+        font-size: 32px;
+        font-weight: 600;
         text-align: center;
-        color: #4B4B4B;
-        font-size: 1.44em;
-        line-height: 1;
-        margin-bottom: -1px;
+        margin-bottom: 12px;
     }
-    .media-body {
-        margin-left: 20px;
+    .meta {
+        margin-bottom: 15px;
+        margin-top: 10px;
+        text-align: center;
     }
-    .media-heading {
-        color: #EB7347;
+    .user-card {
+        display: inline-block;
+        margin-right: 15px;
     }
-    .post-topheader__info {
-        margin-left: 0;
+    .user-card h4 {
+        display: inline;
+        vertical-align: middle;
+        margin-right: 8px;
+        font-weight: 400;
+        margin: 0 10px 0 0;
+        font-size: 14px;
+        line-height: 1.66666667;
+        margin-right: 20px;
     }
-    .mb15, .mb-15 {
-        margin-bottom: 15px !important;
-    }
-    .post-topheader__info--title {
-        margin: 0 0 10px 0;
-        line-height: 1.2;
-    }
-    .taglist--inline, .taglist--block {
-        list-style: none;
-        padding: 0;
-        font-size: 0;
-    }
-    .mr10, .mr-10 {
-        margin-right: 10px !important;
-    }
-    .inline-block {
+    .actions {
         display: inline-block;
     }
-    ul, ol {
-        margin-top: 0;
-        margin-bottom: 10px;
+    .actions a {
+        font-size: 12px;
+        margin-right: 5px;
+        color: #9b9b9b;
     }
-    .taglist--inline>li {
-        display: inline-block;
-        margin-right: 3px;
+    .markdown {
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        color: #636b6f;
+        overflow: hidden;
+        line-height: 2;
+        word-wrap: break-word;
+        font-size: 14px;
     }
-
-    .taglist--inline li, .taglist--block li {
-        padding: 0;
-        font-size: 13px;
+    .card__text {
+        padding: 16px;
+        width: 100%;
     }
-    a.topic {
-        background: #5cb860;
-        padding: 1px 10px 0;
-        border-radius: 30px;
-        text-decoration: none;
-        margin: 0 5px 5px 0;
-        display: inline-block;
-        white-space: nowrap;
-        cursor: pointer;
-    }
-    a.topic:hover {
-        background: lightskyblue;
-        color: #fff;
-        text-decoration: none;
-    }
-    .visit {
-        margin-left: 20px;
-    }
-    .question-comments {
-        margin-left: 20px;
-        margin-top: 5px;
-    }
-    .question-answer {
-        margin-top: 5px;
+    .elevation-8 {
+        -webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)!important;
+        box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)!important;
     }
 </style>

@@ -27,7 +27,7 @@ class MessageController extends Controller
             'body'         => \request('body'),
             'dialog_id'    => time().user('api')->id
         ];
-        $message = $this->messageRepository->sotre($data);
+        $message = $this->messageRepository->create($data);
         if ($message){
             $message->toUser->notify(new NewMessageNotification($message));
             return response()->json(['status'=>true]);

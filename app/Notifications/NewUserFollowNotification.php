@@ -41,9 +41,7 @@ class NewUserFollowNotification extends Notification
 
     public function toDatabase()
     {
-        return [
-            'name' => user('api')->name,
-        ];
+        return user('api')->toArray();
     }
 
     /**

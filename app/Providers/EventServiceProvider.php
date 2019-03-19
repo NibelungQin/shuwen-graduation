@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\QuestionViewEvent' => [
             'App\Listeners\QuestionEventListener',
         ],
+        'App\Events\AcceptFriendEvent' => [
+            'App\Listeners\FriendEventListener',
+        ],
     ];
 
     /**

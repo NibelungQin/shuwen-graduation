@@ -3,14 +3,20 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-header">对话列表</div>
+                    <div class="card-header">
+                        对话列表
+                        <friend-follow-button
+                                class="float-right"
+                                v-bind:user="messages[0].from_user.id == user.id ? messages[0].to_user.id : messages[0].from_user.id">
+                        </friend-follow-button>
+                    </div>
                     <div class="card-body">
                         <el-form :model="formData" :rules="rules" ref="formData">
                             <el-form-item prop="body">
                                 <el-input
                                         class="col-md-12"
                                         type="textarea"
-                                        :rows="3"
+                                        :rows="4"
                                         v-model="formData.body"
                                 ></el-input>
                             </el-form-item>
@@ -20,7 +26,7 @@
                         </el-form>
                         <div class="messages-list">
                             <div v-for="message in messages" class="media">
-                                <img class="rounded-circle" :src="message.from_user.avatar" alt="">
+                                <img class="rounded-circle" :src="message.from_user.avatar" style="width: 40px" alt="">
                                 <div class="media-body">
                                     <h4 class="">
                                         <a href="#">
@@ -49,8 +55,13 @@
 </template>
 
 <script>
+    import FriendFollowButton from '../friend/FriendFollowButton'
+    import {mapState} from 'vuex'
     export default {
         name: "Show",
+        components: {
+            FriendFollowButton
+        },
         data() {
             return {
                 messages: [],
@@ -67,6 +78,9 @@
                 },
             }
         },
+        computed:mapState ({
+            user: state=>state.AuthUser
+        }),
         filters: {
             formatDate: function (value) {
                 let date = new Date(value);

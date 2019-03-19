@@ -2,7 +2,7 @@
     <div>
         <span><h3>{{this.pagination.total}}个回答</h3></span>
         <div class="card-footer">
-            <ul v-for="answer in answers" v-bind:key="answer.id">
+            <ul v-for="(answer,index) in answers" v-bind:key="index">
                 <li>
                     <div class="media">
                         <div>
@@ -15,7 +15,7 @@
                                     <el-button
                                             type="text"
                                             icon="el-icon-edit"
-                                            @click="is_comment=!is_comment"
+                                            @click="showComment(index)"
                                     >评论 {{Object.keys(answer.comments).length}}</el-button>
                                 </div>
                                 <div class="answer-right">
@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="answer-comments" v-bind:key="answer.id" v-if="is_comment">
+                                <div class="answer-comments" v-show="activeIndex===index">
                                     <comment
                                         type="answer"
                                         :model="answer.id"
@@ -71,7 +71,7 @@
                     current_page: 1,
                     last_page:0
                 },
-                is_comment: false,
+                activeIndex: -1,
                 count: 1,
                 answers: [],
             }
@@ -87,6 +87,9 @@
             this.fetchAnswers(this.pagination.current_page);
         },
         methods: {
+            showComment(index){
+                this.activeIndex = index;
+            },
             fetchAnswers(page){
                 let data = {page: page}
                 axios.get('/api/questions/' + this.$route.params.id + '/answer', data).then(response=>{

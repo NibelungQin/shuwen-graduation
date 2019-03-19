@@ -4,7 +4,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-header">
-                        发布问题
+                        <h2>创建帖子</h2>
                     </div>
                     <div class="card-body">
                         <el-form :model="formData" :rules="rules" ref="formData">
@@ -59,7 +59,6 @@
     import {quillEditor} from 'vue-quill-editor'
     import {quillRedefine} from 'vue-quill-editor-upload'
     export default {
-        name: "Create",
         components: {
             quillEditor,
             quillRedefine
@@ -81,7 +80,7 @@
                 editorOption: null
             }
         },
-        //上传图片到服务器（不使用base64）
+        //上传图片到本地（不使用base64）
         created() {
             this.editorOption = quillRedefine(//修改富文本编辑器图片上传路径
                 {
@@ -118,7 +117,7 @@
                     body: this.formData.body
                 }
                 axios.post('/api/questions',data).then(response => {
-
+                    this.$router.push({name: 'questions'})
                 })
             },
             onEditorBlur(){//失去焦点事件

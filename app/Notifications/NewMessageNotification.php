@@ -38,6 +38,7 @@ class NewMessageNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
+            'id'        => user('api')->id,
             'name'      => user('api')->name,
             'dialog_id' => $this->message->dialog_id,
         ];

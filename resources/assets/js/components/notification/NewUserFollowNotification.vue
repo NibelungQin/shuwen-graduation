@@ -1,41 +1,41 @@
 <template>
-    <li class="notifications " v-bind:class="{'unread' : read}">
-        <a :href="notification.data.name">
-            {{notification.data.name}}
-        </a>关注了你
-    </li>
+    <div class="section__3bS4" :class="read_at ? '' : 'not_read_at'">
+        <router-link :to="'/users/' + name">
+            <img :src="avatar" class="avatar rounded-circle" style="width: 40px; height: 40px; background: rgb(255, 255, 255); padding: 3px; border: 1px solid rgb(197, 197, 197);">
+        </router-link>
+        <router-link :to="'/users/' + name">
+            {{ name }}
+        </router-link>
+        •
+        关注了你
+        <span class="meta">
+            • {{ created_diff }}
+        </span>
+    </div>
 </template>
 
 <script>
     export default {
         name: "NewUserFollowNotification",
-        props: ['notification'],
+        props: ['avatar', 'name','read_at','created_diff'],
         data() {
             return {
                 read: true
             }
         },
-        mounted() {
-            axios.post('/api/notifications/unread',{
-                'notifiaction': this.notifiaction
-            }).then(response=>{
-                this.read = response.data.read
-            })
-        }
     }
 </script>
 
 <style scoped>
-    .notifications {
-        position: relative;
-        padding: 8px 15px 8px 25px;
-        color: #666;
-        border: none;
-        border-top: 1px dotted #eee;
-        background: transparent;
+    .meta, .operate {
+        color: #a9a7a7;
+        font-size: 12px;
     }
-
-    .notifications.unread {
-        background: #fff9ea;
+    .section__3bS4 a {
+        color: #15b982;
+    }
+    .not_read_at{
+        background-color:#f5f5f1;
+        border-bottom: 1px solid #ffffff;
     }
 </style>

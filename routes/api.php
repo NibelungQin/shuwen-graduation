@@ -45,12 +45,14 @@ Route::post('/user/follow','FollowController@follow');
 
 Route::post('/message/store','MessageController@store');
 Route::get('/notifications','NotificationController@index');
-Route::post('/notifications/unread','NotificationController@unread');
 Route::get('/notifications/{notification}','NotificationController@show');
 
 Route::get('/inbox','InboxController@index');
 Route::get('inbox/{dialogId}','InboxController@show');
 Route::post('inbox/{dialogId}/store','InboxController@store');
+Route::get('/friend/sender/{id}','FriendController@index');
+Route::post('/friend/send','FriendController@send');
+Route::post('/friend/accept','FriendController@receiver');
 
 Route::get('/topics','TopicController@index');
 

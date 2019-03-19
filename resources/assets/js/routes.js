@@ -5,7 +5,6 @@ let routes = [
     {
         path: '/',
         name: 'home',
-        component: require('./components/user/Profile'),//profile暂时作为主页
         meta: {}
     },
     {
@@ -19,6 +18,55 @@ let routes = [
         name: 'register',
         component: require('./components/register/Register'),
         meta: {requireGuest: true}
+    },
+    {
+        path: '/users',
+        component: require('./components/user/Users'),
+        // children: [
+        //     {
+        //         path: ':name',
+        //         meta: {
+        //             title: ':name 个人信息 | 书问'
+        //         },
+        //         name: 'user_replies',
+        //         // component: require(),
+        //     },
+        //
+        // ]
+    },
+    {
+        path: '/users',
+        component: require('./components/user/SideBar'),
+        meta: {requireAuth: true},
+        children: [
+            {
+                path: ':name/edit',
+                name: 'user_edit',
+                component: require('./components/user/Profile'),
+                meta: {
+                    title: '编辑个人资料 | 书问',
+                    requireAuth: true
+                },
+            },
+            {
+                path: ':name/edit_avatar',
+                name: 'user_edit_avatar',
+                component: require('./components/user/Avatar'),
+                meta: {
+                    title: '编辑头像 | 书问',
+                    requireAuth: true
+                },
+            },
+            {
+                path: ':name/edit_password',
+                name: 'user_edit_password',
+                component: require('./components/user/Password'),
+                meta: {
+                    title: '修改密码 | 书问',
+                    requireAuth: true
+                },
+            },
+        ]
     },
     {
         path: '/questions',
@@ -51,6 +99,36 @@ let routes = [
         meta: {}
     },
     {
+        path: '/posts',
+        name: 'posts',
+        component: require('./components/post/Index'),
+        meta: {}
+    },
+    {
+        path: '/posts/create',
+        name: 'postCreate',
+        component: require('./components/post/Create'),
+        meta: {requireAuth: true}
+    },
+    {
+        path: '/posts/:id',
+        name: 'postShow',
+        component: require('./components/post/Show'),
+        meta: {}
+    },
+    {
+        path: '/posts/:id/edit',
+        name: 'postEdit',
+        component: require('./components/post/Edit'),
+        meta: {requireAuth: true}
+    },
+
+    {
+        path: '/comment',
+        component: require('./components/comment/CommentReply'),
+    },
+
+    {
         path: '/notifications',
         name: 'notifications',
         component: require('./components/notification/Index'),
@@ -79,19 +157,6 @@ let routes = [
         name: 'bookcatDetail',
         component: require('./components/category/BookcatDetail'),
         meta: {}
-    },
-    {
-        path: '/profile',
-        component: require('./components/user/ProfileWrapper'),
-        children: [
-            {
-                path: '',
-                name: 'profile',
-                component: require('./components/user/Profile'),
-                meta: {requireAuth: true}
-            },
-        ],
-        meta: {requireAuth: true}
     },
     {
         path:'/chat',
