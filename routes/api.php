@@ -22,6 +22,11 @@ Route::post('/login','Auth\LoginController@login');
 Route::post('/logout','Auth\LoginController@logout');
 Route::post('/token/refresh','Auth\LoginController@refresh');
 
+Route::get('/articles','ArticlesController@index');
+Route::post('/articles','ArticlesController@store');
+Route::get('/articles/{id}','ArticlesController@show');
+Route::post('/articles/{id}','ArticlesController@update');
+
 Route::get('/questions','QuestionController@index');
 Route::post('/questions','QuestionController@store');
 Route::get('/questions/{id}','QuestionController@show');

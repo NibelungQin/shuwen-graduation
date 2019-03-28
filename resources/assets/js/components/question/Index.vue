@@ -15,7 +15,7 @@
                                     {{question.title}}
                                 </router-link>
                             </h4>
-                            <div v-html="question.body"></div>
+                            <!--<div v-html="question.body"></div>-->
                         </div>
                     </div>
                 </div>

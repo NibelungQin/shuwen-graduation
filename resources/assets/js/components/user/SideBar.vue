@@ -6,30 +6,38 @@
                     <div class="box">
                         <div class="padding-md">
                             <Menu active-name="1" theme="light" class="text-xs-center user-sidebar">
-                                <router-link :to="'/users/' + user.name + '/edit'" style="color: #495060;">
-                                    <MenuItem name="1">
-                                        <Icon type="md-card" />
-                                        个人信息
-                                    </MenuItem>
-                                </router-link>
-                                <router-link :to="'/users/' + user.name + '/edit_avatar'" style="color: #495060;">
-                                    <MenuItem name="2">
-                                        <Icon type="md-photos" />
-                                        修改头像
-                                    </MenuItem>
-                                </router-link>
-                                <router-link :to="'/users/' + user.name + '/edit_email_notify'" style="color: #495060;">
-                                    <MenuItem name="3">
-                                        <Icon type="md-notifications"></Icon>
-                                        消息通知
-                                    </MenuItem>
-                                </router-link>
-                                <router-link :to="'/users/' + user.name + '/edit_password'" style="color: #495060;">
-                                    <MenuItem name="4">
-                                        <Icon type="md-lock" />
-                                        修改密码
-                                    </MenuItem>
-                                </router-link>
+                                <MenuItem name="1">
+                                    <router-link :to="'/users/' + user.name + '/edit'" style="color: #495060;">
+                                        <div style="width: 100%">
+                                            <Icon type="md-card" />
+                                            个人信息
+                                        </div>
+                                    </router-link>
+                                </MenuItem>
+                                <MenuItem name="2">
+                                    <router-link :to="'/users/' + user.name + '/edit_avatar'" style="color: #495060;">
+                                        <div style="width: 100%">
+                                            <Icon type="md-photos" />
+                                            修改头像
+                                        </div>
+                                    </router-link>
+                                </MenuItem>
+                                <MenuItem name="3">
+                                    <router-link :to="'/users/' + user.name + '/edit_email_notify'" style="color: #495060;">
+                                        <div style="width: 100%">
+                                            <Icon type="md-notifications"></Icon>
+                                            消息通知
+                                        </div>
+                                    </router-link>
+                                </MenuItem>
+                                <MenuItem name="4">
+                                    <router-link :to="'/users/' + user.name + '/edit_password'" style="color: #495060;">
+                                        <div style="width: 100%">
+                                            <Icon type="md-lock" />
+                                            修改密码
+                                        </div>
+                                    </router-link>
+                                </MenuItem>
                             </Menu>
                         </div>
                     </div>

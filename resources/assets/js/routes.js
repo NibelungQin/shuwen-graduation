@@ -22,17 +22,24 @@ let routes = [
     {
         path: '/users',
         component: require('./components/user/Users'),
-        // children: [
-        //     {
-        //         path: ':name',
-        //         meta: {
-        //             title: ':name 个人信息 | 书问'
-        //         },
-        //         name: 'user_replies',
-        //         // component: require(),
-        //     },
-        //
-        // ]
+        children: [
+            {
+                path: ':name',
+                meta: {
+                    title: ':name 个人信息 | 书问'
+                },
+                name: 'user_replies',
+                component: require('./components/user/Replies'),
+            },
+            {
+                path: ':name/following',
+                meta: {
+                    title: ':name 关注信息 | 书问'
+                },
+                name: 'user_following',
+                component: require('./components/user/Following'),
+            },
+        ]
     },
     {
         path: '/users',
@@ -99,27 +106,27 @@ let routes = [
         meta: {}
     },
     {
-        path: '/posts',
-        name: 'posts',
-        component: require('./components/post/Index'),
+        path: '/articles',
+        name: 'articles',
+        component: require('./components/articles/Index'),
         meta: {}
     },
     {
-        path: '/posts/create',
-        name: 'postCreate',
-        component: require('./components/post/Create'),
+        path: '/articles/create',
+        name: 'article_create',
+        component: require('./components/articles/Create'),
         meta: {requireAuth: true}
     },
     {
-        path: '/posts/:id',
-        name: 'postShow',
-        component: require('./components/post/Show'),
+        path: '/articles/:id',
+        name: 'article_show',
+        component: require('./components/articles/Show'),
         meta: {}
     },
     {
-        path: '/posts/:id/edit',
-        name: 'postEdit',
-        component: require('./components/post/Edit'),
+        path: '/articles/:id/edit',
+        name: 'article_edit',
+        component: require('./components/articles/Edit'),
         meta: {requireAuth: true}
     },
 

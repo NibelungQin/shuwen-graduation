@@ -10,7 +10,7 @@
                                 <img class="rounded-circle" :src="question.user.avatar" alt="64x64" style="height: 30px ;width: 30px">
                             </a>
                             <h4>
-                                <a href="#" class="" style="color: rgb(21, 185, 130);">{{question.user.name}}</a>
+                                <router-link :to="'/users/' + question.user.name" class="" style="color: rgb(21, 185, 130);">{{question.user.name}}</router-link>
                             </h4>
                             <time style="vertical-align: middle; font-size: 12px; color: rgb(155, 155, 155);">发表于 {{question.created_at | ago()}}</time>
                         </div>
@@ -21,7 +21,7 @@
                     </div>
                     <div class="card" style="height: auto">
                         <div class="card__text markdown elevation-8" style="padding: 15px 20px 1px 30px">
-                            <div v-html="question.body"></div>
+                            <div class="showbody" v-html="question.body"></div>
                         </div>
                     </div>
                     <div class="">
@@ -76,6 +76,7 @@
 <style scoped>
     .main-content {
         padding: 25px 0!important;
+        background: #f5f5f1!important;
     }
     .content--wrap {
         -webkit-box-flex: 1;
@@ -132,5 +133,10 @@
     .elevation-8 {
         -webkit-box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)!important;
         box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12)!important;
+    }
+</style>
+<style>
+    .showbody img {
+        width: 100%;
     }
 </style>

@@ -12,19 +12,19 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">首页</a>
+                        <router-link class="nav-link" :to="'/'">首页</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/posts">问章</a>
+                        <router-link class="nav-link" :to="'/posts'">问章</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/questions">问心</a>
+                        <router-link class="nav-link" :to="'/questions'">问心</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/book/category">问书</a>
+                        <router-link class="nav-link" :to="'/book/category'">问书</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/questions/create">发起问题</a>
+                        <router-link class="nav-link" :to="'/questions/create'">发起问题</router-link>
                     </li>
                 </ul>
 

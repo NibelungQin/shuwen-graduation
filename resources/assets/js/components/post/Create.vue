@@ -1,5 +1,5 @@
 <template>
-    <div class="jumbotron">
+    <div class="create container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
@@ -45,7 +45,7 @@
                                 </quill-editor>
                             </el-form-item>
                             <el-form-item>
-                                <el-button class="btn-block" type="primary" @click="submitQuestion">提交</el-button>
+                                <button class="btn btn-success btn-block" @click="submitQuestion">提交</button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -131,6 +131,10 @@
 </script>
 
 <style scoped>
+    .create {
+        height: 100%;
+        margin-top: 50px;
+    }
     .quill-editor {
         height: 200px;
     }

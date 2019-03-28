@@ -27,6 +27,6 @@
 
 <style scoped>
     .theme-light{
-        background: #f5f5f1!important;
+        /*background: #f5f5f1!important;*/
     }
 </style>
