@@ -13,11 +13,25 @@
             </div>
             <div v-if="notification.type == 'new-message-notification'">
                 <new-message-notification
+                        :id="notification.id"
+                        :userId="notification.data.userId"
+                        :dialog_id="notification.data.dialog_id"
                         :name="notification.data.name"
                         :avatar="notification.data.avatar"
                         :read_at="notification.read_at"
                         :created_diff="notification.created_diff"
                 ></new-message-notification>
+            </div>
+            <div v-if="notification.type == 'received-comment-notification'">
+                <received-comment-notification
+                        :avatar="notification.data.reply_user.avatar"
+                        :name="notification.data.reply_user.name"
+                        :created_diff="notification.created_diff"
+                        :body="notification.data.body"
+                        :title="notification.data.commentable.title"
+                        :read_at="notification.read_at"
+                        :slug="notification.data.commentable.id"
+                ></received-comment-notification>
             </div>
         </div>
     </div>
@@ -26,12 +40,14 @@
 <script>
     import NewMessageNotification from './NewMessageNotification'
     import NewUserFollowNotification from './NewUserFollowNotification'
+    import ReceivedCommentNotification from './ReceivedCommentNotification'
     import SendFriendNotification from './SendFriendNotification'
     export default {
         name: "Notification",
         components: {
             NewMessageNotification,
             NewUserFollowNotification,
+            ReceivedCommentNotification,
             SendFriendNotification,
         },
         data() {

@@ -3,22 +3,19 @@
         <h2><Icon type="md-photos"></Icon> 编辑头像</h2>
         <hr>
         <label for="exampleInputFile">请选择图片：</label>
-        <img id="preview-img" class="avatar-preview-img" :src="user.avatar">
-        <input type="file" accept="image/png, image/jpeg, image/gif, image/jpg" class="fileinput"  @change="previewModel" />
-        <Modal title="裁剪头像" ok-text="裁剪" :loading="true" :mask-closable="false" @on-ok="handelCut" v-model="cut_avatar">
-            <Row :gutter="10">
-                <Col span="14" class="image-editor-con">
-                    <div class="cropper">
-                        <img id="cropimg" alt="">
-                    </div>
-                </Col>
-                <Col span="10" class="image-editor-con">
-                    <Row type="flex" justify="center" align="middle" class="image-editor-con-preview-con">
-                        <div id="preview"></div>
-                    </Row>
-                </Col>
-            </Row>
-        </Modal>
+        <img id="preview-img" class="avatar-preview-img" :src="imgDataUrl" @click="toggleShow">
+        <my-upload field="img"
+                   @crop-success="cropSuccess"
+                   @crop-upload-success="cropUploadSuccess"
+                   @crop-upload-fail="cropUploadFail"
+                   v-model="show"
+                   :width="300"
+                   :height="300"
+                   url="/api/upload/img"
+                   :params="params"
+                   :headers="headers"
+                   img-format="png">
+        </my-upload>
         <br>
         <Button :loading="loading" style="color: #fff;background-color: #1abc9c;border-color: #1abc9c;"  @click="handleSubmit" >
             <span v-if="!loading">上传头像</span>
@@ -29,68 +26,79 @@
 
 <script>
     import {mapState} from 'vuex'
-    import Cropper from 'cropperjs'
+    import myUpload from 'vue-image-crop-upload/upload-2.vue';
+    import jwtToken from '../../helpers/jwt'
     export default {
+        components: {
+            'my-upload': myUpload
+        },
         data() {
             return {
+                show: false,
+                params: {
+                    _token: jwtToken.getToken(),
+                    name: 'img'
+                },
+                headers: {
+                    smail: '*_~'
+                },
+
                 loading: false,
-                cut_avatar: false,
-                cropper: {},
-                avatar: ''
+                imgDataUrl: ''
             }
         },
-        computed:{
-            ...mapState({
-                user: state=>state.AuthUser
-            })
+        created(){
+            setTimeout(() => {
+                this.imgDataUrl = this.$store.state.AuthUser.name
+            }, 1000)
         },
-        mounted() {
-            let img = document.getElementById('cropimg');
-            this.cropper = new Cropper(img, {
-                dragMode: 'move',
-                preview: '#preview',
-                restore: false,
-                center: false,
-                highlight: false,
-                cropBoxMovable: false,
-                toggleDragModeOnDblclick: false
-            });
-        },
+        // computed:{
+        //     ...mapState({
+        //         user: state=>state.AuthUser
+        //     })
+        // },
         methods: {
             handleSubmit() {
                 this.loading = true;
-                // this.$http.put('users/' + this.$route.params.name + '/avatar', {avatar: this.avatar}).then((response) => {
-                //     this.$Message.success('修改成功')
-                //     this.$store.commit('modifyAvatar', this.avatar);
-                //     this.loading = false
-                // })
+                this.$http.put('users/' + this.$route.params.name + '/avatar', {avatar: this.avatar}).then((response) => {
+                    this.$Message.success('修改成功')
+                    this.$store.commit('modifyAvatar', this.avatar);
+                    this.loading = false
+                })
             },
-            previewModel(e) {
-                let file = e.target.files[0];
-                let reader = new FileReader();
-                reader.onload = () => {
-                    this.cropper.replace(reader.result);
-                    reader.onload = null;
-                };
-
-                reader.readAsDataURL(file);
-                this.cut_avatar = true;
+            toggleShow() {
+                this.show = !this.show;
             },
-            handelCut() {
-                let vm = this;
-                vm.cropper.getCroppedCanvas().toBlob(function (blob) {
-                    var formData = new FormData();
-                    formData.append('img', blob);
-
-                    axios.post('/api/upload/img',formData).then(response=>{
-                        vm.avatar = response.imgUrl
-                        vm.cut_avatar = false
-                    })
-                    // vm.$http.post('upload/image', formData).then((response) => {
-                    //     vm.avatar = response.imgUrl
-                    //     vm.cut_avatar = false
-                    // })
-                });
+            /**
+             * crop success
+             *
+             * [param] imgDataUrl
+             * [param] field
+             */
+            cropSuccess(imgDataUrl, field){
+                this.imgDataUrl = imgDataUrl;
+            },
+            /**
+             * upload success
+             *
+             * [param] jsonData  server api return data, already json encode
+             * [param] field
+             */
+            cropUploadSuccess(response, field){
+                this.imgDataUrl = response.imgUrl
+                this.$emit('successUpload', response.imgUrl)
+                this.toggleShow()
+            },
+            /**
+             * upload fail
+             *
+             * [param] status    server api return error status, like 500
+             * [param] field
+             */
+            cropUploadFail(status, field){
+                console.log('-------- upload fail --------');
+                console.log(status);
+                console.log('field: ' + field);
             }
         }
     }

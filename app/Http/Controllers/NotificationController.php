@@ -20,7 +20,17 @@ class NotificationController extends Controller
             $notification['created_diff'] = $notification->created_at->diffForHumans();
             return $notification;
         })->toArray();
+        $user->unreadNotifications->markAsRead();
         return response()->json(['notifications'=>$notifications]);
+    }
+
+    public function getUnreadCount()
+    {
+        $user = user('api');
+        $count = $user->unreadNotifications->count();
+        return response()->json([
+            'count' => $count
+         ]);
     }
 
     /**

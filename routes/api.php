@@ -27,6 +27,9 @@ Route::post('/articles','ArticlesController@store');
 Route::get('/articles/{id}','ArticlesController@show');
 Route::post('/articles/{id}','ArticlesController@update');
 
+Route::get('commentable/{commentableId}/comment', 'CommentController@show')->name('comments.show');
+Route::delete('comments/{id}', 'CommentController@destroy')->name('comments.destroy');
+
 Route::get('/questions','QuestionController@index');
 Route::post('/questions','QuestionController@store');
 Route::get('/questions/{id}','QuestionController@show');
@@ -50,6 +53,7 @@ Route::post('/user/follow','FollowController@follow');
 
 Route::post('/message/store','MessageController@store');
 Route::get('/notifications','NotificationController@index');
+Route::get('/notifications/count','NotificationController@getUnreadCount');
 Route::get('/notifications/{notification}','NotificationController@show');
 
 Route::get('/inbox','InboxController@index');

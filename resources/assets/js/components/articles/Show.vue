@@ -28,11 +28,8 @@
                             <div class="showbody" v-html="article.content"></div>
                         </div>
                     </div>
-                    <div class="">
-                        <post-comment></post-comment>
-                    </div>
                     <div>
-                        <submit-comment></submit-comment>
+                        <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="article.id"></comment-post>
                     </div>
                 </div>
             </div>
@@ -42,14 +39,13 @@
 
 <script>
     import moment from 'moment'
-    import PostComment from  '../comment/PostComment'
-    import SubmitComment from '../comment/SubmitComment'
+    import CommentPost from  '../comment/CommentPost'
     import {mapState} from 'vuex'
+    import JWT from '../../helpers/jwt'
     export default {
         name: "Show",
         components:{
-            PostComment,
-            SubmitComment
+            CommentPost,
         },
         data() {
             return {
@@ -65,6 +61,9 @@
             }
         },
         computed: {
+            can_comment(){
+                return JWT.getToken() ? true : false
+            },
             ...mapState({
                 user: state=>state.AuthUser
             })

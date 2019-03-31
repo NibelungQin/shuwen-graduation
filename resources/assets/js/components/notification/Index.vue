@@ -1,5 +1,5 @@
 <template>
-    <div class="jumbotron">
+    <div class="main-content">
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -55,6 +55,10 @@
 </script>
 
 <style scoped>
+    .main-content {
+        padding: 25px 0!important;
+        /*background: #f5f5f1!important;*/
+    }
     .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
         color: #fff!important;
         background-color: rgb(26, 188, 156) !important;

@@ -50,7 +50,7 @@ class ArticleRepository
         $article = Article::where('id',$id)->first();
         $article->load(['user'=>function($query){
             return $query->select(['id','name','avatar']);
-        },'topics']);
+        },'topics','comments']);
         return $article;
     }
 }

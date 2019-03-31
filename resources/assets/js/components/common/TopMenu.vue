@@ -45,7 +45,7 @@
                     <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
                         <div class="uk-navbar-content">
                             <a @click="jumpNotification">
-                                <Badge :count="count" :class="">
+                                <Badge :count="count" :class="notification_count">
                                     <Icon type="md-notifications" style="font-size:25px;color:#8590a6"></Icon>
                                 </Badge>
                             </a>
@@ -94,18 +94,30 @@
 
 <script>
     import {mapState} from 'vuex'
+    import JWT from '../../helpers/jwt'
     export default {
         data() {
             return {
-                count: 0
+                count: 22
             }
         },
-        created(){
-            this.$store.dispatch('setAuthUser');
+        // created(){
+        //     this.$store.dispatch('setAuthUser');
+        // },
+        computed: {
+            notification_count() {
+                if (this.$store.state.AuthUser.authenticated) {
+                    console.log(this.$store.state.AuthUser.authenticated)
+                    this.getSocketNotification();
+                    axios.get('/api/notifications/count').then((response) => {
+                        this.count = response.data.count;
+                    })
+                }
+            },
+            ...mapState({
+                user: state=>state.AuthUser
+            })
         },
-        computed:mapState({
-            user: state=>state.AuthUser
-        }),
         methods: {
             logout(){
                 this.$store.dispatch('logoutRequest').then(response=>{
@@ -115,6 +127,20 @@
             jumpNotification() {
                 this.count = 0;
                 this.$router.push('/notifications');
+            },
+            getSocketNotification(){
+                let echo = new Echo({
+                    auth: {
+                        headers: {
+                            Authorization: 'Bearer ' + JWT.getToken(),
+                        },
+                    },
+                });
+                echo.private('user_room_' + this.$store.state.AuthUser.id)
+                    .listen('NotificationPushEvent', (e)=>{
+                        console.log(e);
+                        this.count = e.count
+                    })
             }
         }
     }

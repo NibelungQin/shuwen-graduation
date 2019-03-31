@@ -30,6 +30,8 @@ export default {
                     type: types.SET_AUTH_USER,
                     user: response.data
                 })
+
+                return response
             }).catch(error => {
                 dispatch('refreshToken')
             })
