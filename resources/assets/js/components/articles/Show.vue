@@ -2,38 +2,61 @@
     <main class="main-content">
         <div class="content--wrap">
             <div class="container">
-                <div class="col-md-10 offset-md-1" v-if="article">
-                    <h1 class="article-title">{{article.title}}</h1>
-                    <div class="meta">
-                        <div class="user-card">
-                            <a href="">
-                                <img class="rounded-circle" :src="article.user.avatar" alt="64x64" style="height: 30px ;width: 30px">
-                            </a>
-                            <h4>
-                                <router-link :to="'/users/' + article.user.name" class="" style="color: rgb(21, 185, 130);">{{article.user.name}}</router-link>
-                            </h4>
-                            <time style="vertical-align: middle; font-size: 12px; color: rgb(155, 155, 155);">发表于 {{article.created_at | ago()}}</time>
-                        </div>
-                        <div class="actions">
-                            <i class="zi zi_eye"></i>
-                            {{article.view_count}}次浏览
-                        </div>
-                        <div class="actions">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="side-widget">
                             <i class="zi zi_tag"></i>
-                            <a v-for="topic in article.topics">{{topic.name}} </a>
                         </div>
                     </div>
-                    <div class="card" style="height: auto">
-                        <div class="card__text markdown elevation-8" style="padding: 15px 20px 1px 30px">
-                            <div class="showbody" v-html="article.content"></div>
+                    <div class="col-md-10" v-if="article">
+                        <h1 class="article-title">{{article.title}}</h1>
+                        <div class="meta">
+                            <div class="user-card">
+                                <a href="">
+                                    <img class="rounded-circle" :src="article.user.avatar" alt="64x64" style="height: 30px ;width: 30px">
+                                </a>
+                                <h4>
+                                    <router-link :to="'/users/' + article.user.name" class="" style="color: rgb(21, 185, 130);">{{article.user.name}}</router-link>
+                                </h4>
+                                <time style="vertical-align: middle; font-size: 12px; color: rgb(155, 155, 155);">发表于 {{article.created_at | ago()}}</time>
+                            </div>
+                            <div class="actions">
+                                <i class="zi zi_eye"></i>
+                                {{article.view_count}}次浏览
+                            </div>
+                            <div class="actions">
+                                <i class="zi zi_tag"></i>
+                                <a v-for="topic in article.topics">{{topic.name}} </a>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="article.id"></comment-post>
+                        <div class="card" style="height: auto">
+                            <div class="card__text markdown elevation-8" style="padding: 15px 20px 1px 30px">
+                                <div class="showbody" v-html="article.content"></div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="margin-top: 20px">
+                            <button type="button" id="mainLike"class="btn btn-success btn-lg active">
+                                <span id="mainLikeText">已赞</span>
+                                &nbsp;&nbsp;
+                                <span class="seprator">|</span>&nbsp;&nbsp;
+                                <span id="mainLikeNum">7</span>
+                            </button>
+                            <button type="button" id="mainBookmark" data-type="article" class="btn btn-primary btn-lg ">
+                                <span id="mainBookmarkText">收藏</span>&nbsp;&nbsp;
+                                <span class="seprator">|</span>&nbsp;&nbsp;
+                                <span id="mainBookmarkNum">4</span>
+                            </button>
+                        </div>
+                        <div>
+                            <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="article.id"></comment-post>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <BackTop :height="100" :bottom="100">
+            <div class="top">返回顶端</div>
+        </BackTop>
     </main>
 </template>
 
@@ -77,6 +100,23 @@
 </script>
 
 <style scoped>
+    .side-widget {
+        display: flex;
+        position: fixed;
+        flex-direction: column;
+        margin-left: 10px;
+        margin-top: 150px;
+        font-size: 20px;
+        width: 40px;
+        z-index: 1000;
+    }
+    .top{
+        padding: 10px;
+        background: rgba(0, 153, 229, .7);
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+    }
     .main-content {
         padding: 25px 0!important;
         background: #f5f5f1!important;

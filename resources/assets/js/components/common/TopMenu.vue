@@ -15,7 +15,7 @@
                         <router-link class="nav-link" :to="'/'">首页</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" :to="'/posts'">问章</router-link>
+                        <router-link class="nav-link" :to="'/articles'">问章</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" :to="'/questions'">问心</router-link>
@@ -44,6 +44,23 @@
 
                     <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
                         <div class="uk-navbar-content">
+                            <Dropdown trigger="click" style="margin-left: 20px">
+                                <a href="javascript:void(0)">
+                                    <Icon type="md-add" style="font-size:25px;color:#8590a6"></Icon>
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <router-link :to="'/questions/create'">
+                                        <DropdownItem>提问题</DropdownItem>
+                                    </router-link>
+                                    <router-link :to="'/articles/create'">
+                                        <DropdownItem>写文章</DropdownItem>
+                                    </router-link>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    </li>
+                    <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
+                        <div class="uk-navbar-content">
                             <a @click="jumpNotification">
                                 <Badge :count="count" :class="notification_count">
                                     <Icon type="md-notifications" style="font-size:25px;color:#8590a6"></Icon>
@@ -51,6 +68,13 @@
                             </a>
                         </div>
                     </li><!--<li v-if="user.authenticated"><img :src="user.avatar" id="firstAvatar"  class="rounded-circle" width="40" height="40" alt=""></li>-->
+                    <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
+                        <div class="uk-navbar-content">
+                            <router-link :to="'/inbox'">
+                                <Icon type="md-mail" style="font-size:25px;color:#8590a6"></Icon>
+                            </router-link>
+                        </div>
+                    </li>
                     <li v-if="user.authenticated" class="nav-item dropdown ">
                         <Dropdown>
                             <a href="javascript:void(0)">
@@ -94,11 +118,12 @@
 
 <script>
     import {mapState} from 'vuex'
+    import Echo from 'laravel-echo'
     import JWT from '../../helpers/jwt'
     export default {
         data() {
             return {
-                count: 22
+                count: 0
             }
         },
         // created(){
@@ -107,7 +132,6 @@
         computed: {
             notification_count() {
                 if (this.$store.state.AuthUser.authenticated) {
-                    console.log(this.$store.state.AuthUser.authenticated)
                     this.getSocketNotification();
                     axios.get('/api/notifications/count').then((response) => {
                         this.count = response.data.count;
@@ -129,16 +153,19 @@
                 this.$router.push('/notifications');
             },
             getSocketNotification(){
-                let echo = new Echo({
-                    auth: {
-                        headers: {
-                            Authorization: 'Bearer ' + JWT.getToken(),
-                        },
-                    },
+                window.Echo = new Echo({
+                    broadcaster: 'socket.io',
+                    host: window.location.hostname + ':6001',
+                    auth:
+                        {
+                            headers:
+                                {
+                                    'authorization': 'Bearer ' + JWT.getToken()
+                                }
+                        }
                 });
-                echo.private('user_room_' + this.$store.state.AuthUser.id)
+                window.Echo.private('user_room_' + this.$store.state.AuthUser.id)
                     .listen('NotificationPushEvent', (e)=>{
-                        console.log(e);
                         this.count = e.count
                     })
             }

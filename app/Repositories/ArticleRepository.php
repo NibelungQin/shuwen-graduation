@@ -23,7 +23,7 @@ class ArticleRepository
      */
     public function getArticleFeed()
     {
-        $articles =  Article::latest()->paginate(10);
+        $articles =  Article::latest()->paginate(6);
         $articles->load(['user'=>function($query){
             return $query->select(['id','name','avatar']);
         },'topics']);

@@ -30,6 +30,13 @@ Route::post('/articles/{id}','ArticlesController@update');
 Route::get('commentable/{commentableId}/comment', 'CommentController@show')->name('comments.show');
 Route::delete('comments/{id}', 'CommentController@destroy')->name('comments.destroy');
 
+# ------------------- 修改头像 ----------------------------
+Route::put('users/{username}/avatar', 'UserController@avatar')->name('users.avatar');
+# ------------------- 用户评论 ----------------------------
+//Route::get('users/{username}/replies', 'UserController@replies')->name('users.replies');
+# ------------------- 用户关注 ----------------------------
+//Route::get('users/{username}/following', 'UserController@following')->name('users.following');
+
 Route::get('/questions','QuestionController@index');
 Route::post('/questions','QuestionController@store');
 Route::get('/questions/{id}','QuestionController@show');

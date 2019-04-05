@@ -25,7 +25,6 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
     import myUpload from 'vue-image-crop-upload/upload-2.vue';
     import jwtToken from '../../helpers/jwt'
     export default {
@@ -49,20 +48,14 @@
         },
         created(){
             setTimeout(() => {
-                this.imgDataUrl = this.$store.state.AuthUser.name
+                this.imgDataUrl = this.$store.state.AuthUser.avatar
             }, 1000)
         },
-        // computed:{
-        //     ...mapState({
-        //         user: state=>state.AuthUser
-        //     })
-        // },
         methods: {
             handleSubmit() {
                 this.loading = true;
-                this.$http.put('users/' + this.$route.params.name + '/avatar', {avatar: this.avatar}).then((response) => {
+                axios.put('/api/users/' + this.$route.params.name + '/avatar', {avatar: this.imgDataUrl}).then((response) => {
                     this.$Message.success('修改成功')
-                    this.$store.commit('modifyAvatar', this.avatar);
                     this.loading = false
                 })
             },
