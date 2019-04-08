@@ -1,7 +1,7 @@
 <template>
     <button
-            class="btn btn-primary btn-sm"
-            v-bind:class="{'btn-success' : followed}"
+            class="btn btn-success btn-sm"
+            v-bind:class="{'active' : followed}"
             v-text="text"
             @click="follow"
     ></button>

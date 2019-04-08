@@ -32,4 +32,9 @@ class Question extends Model
     {
         return $this->morphMany('App\Model\Comment', 'commentable');
     }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'question_id');
+    }
 }

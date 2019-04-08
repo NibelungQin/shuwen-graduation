@@ -20,7 +20,7 @@ class QuestionRepository
      */
     public function byIdWithTopicAndUser($id)
     {
-        return Question::where('id',$id)->with(['topics','comments','user'])->first();
+        return Question::where('id',$id)->withCount('answers')->with(['topics','comments','user'])->first();
     }
 
     public function getQuestionFeed($page=0)

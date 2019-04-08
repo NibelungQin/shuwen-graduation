@@ -1,143 +1,121 @@
 <template>
-    <div>
-        <span><h3>{{this.pagination.total}}个回答</h3></span>
-        <div class="card-footer">
-            <ul v-for="(answer,index) in answers" v-bind:key="index">
-                <li>
-                    <div class="media">
-                        <div>
-                            <user-vote-button :answer="answer.id" :number="answer.votes_count"></user-vote-button>
-                        </div>
-                        <div class="media-body">
-                            <span v-html="answer.body"></span>
-                            <div>
-                                <div class="answer-left">
-                                    <el-button
-                                            type="text"
-                                            icon="el-icon-edit"
-                                            @click="showComment(index)"
-                                    >评论 {{Object.keys(answer.comments).length}}</el-button>
-                                </div>
-                                <div class="answer-right">
-                                    <div class="media float-right">
-                                        <div>
-                                            <img class="rounded-circle" :src="answer.user.avatar" alt="64x64" style="height: 40px ;width: 40px">
-                                        </div>
-                                        <div>
-                                            <div class="media-body">
-                                                {{answer.user.name}}
-                                                <p>{{answer.user.created_at | ago}} 回答</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="answer-comments" v-show="activeIndex===index">
-                                    <comment
-                                        type="answer"
-                                        :model="answer.id"
-                                    ></comment>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <div class="more">
-                <el-button type="text" @click="more">
-                    加载更多
-                    <i class="el-icon-caret-bottom el-icon--right"></i>
-                </el-button>
+    <div class="PostStream-item">
+        <article class="Post EventPost DiscussionStickiedPost">
+            <div>
+                <Icon type="md-clipboard" class="EventPost-icon"></Icon>
+                <div class="EventPost-info">
+                    <a class="EventPost-user">
+                        <span class="username">共{{answer_count}}个回答</span>
+                    </a>
+                </div>
             </div>
+        </article>
+        <div style="margin-top: 20px;">
+            <div style="margin: 10px" v-for="(answer,key) in answers">
+                <answer-child :canComment="canComment" :user_id="user_id" :username="username" :answer="answer"></answer-child>
+            </div>
+        </div>
+        <div v-if="! canComment">
+            <button class="btn btn-block" style="background-color:#F96854 !important;color: #fff !important;">登陆发表评论</button>
+        </div>
+        <div v-else>
+            <Form>
+                <FormItem>
+                    <Input v-model="answer_body" type="textarea" :autosize="{minRows: 2,maxRows: 5}"placeholder="请填写您的答案"></Input>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" @click="post_answer">提交答案</Button>
+                </FormItem>
+            </Form>
         </div>
     </div>
 </template>
 
 <script>
-    import UserVoteButton from '../vote/UserVoteButton'
-    import Comment from '../comment/Comment'
+    import AnswerChild from './AnswerChild'
     export default {
         name: "Show",
         components: {
-            UserVoteButton,
-            Comment
+            AnswerChild
         },
-       data() {
+        props: ['answerCount','canComment','user_id','username'],
+        data() {
             return {
-                pagination: {
-                    total: 0,
-                    per_page: 10,
-                    from: 1,
-                    to: 0,
-                    current_page: 1,
-                    last_page:0
-                },
-                activeIndex: -1,
-                count: 1,
                 answers: [],
-            }
-       },
-        filters: {
-            //将时间转化为Y-m-d
-            ago (date) {
-                var d = new Date(date);
-                return d.getFullYear()+ '-' + (d.getMonth()+1)+ '-' +d.getDate();
+                answer_body: '',
+                is_show: false,
             }
         },
         mounted() {
-            this.fetchAnswers(this.pagination.current_page);
+            axios.get('/api/questions/' + this.$route.params.id + '/answer').then(response=>{
+                this.answers = response.data
+            })
+        },
+        computed: {
+            answer_count(){
+                return this.answerCount
+            }
         },
         methods: {
-            showComment(index){
-                this.activeIndex = index;
-            },
-            fetchAnswers(page){
-                let data = {page: page}
-                axios.get('/api/questions/' + this.$route.params.id + '/answer', data).then(response=>{
-                    this.$set(this, 'answers', response.data.data.data)
-                    this.$set(this, 'pagination', response.data.pagination)
-                })
-            },
-            more(){
-                this.count++
-                if (this.pagination.last_page>=this.count) {
-                    axios.get('/api/questions/' + this.$route.params.id + '/answer?page=' + this.count).then(response=>{
-                        this.answers = this.answers.concat(response.data.data.data)
-                        this.$set(this, 'pagination', response.data.pagination)
-                    })
-                }else {
-                    this.$notify({
-                        title: '没有更多的数据',
-                        position: 'bottom-right'
-                    });
+            post_answer(){
+                if (! this.answer_body) {
+                    this.$Message.error('请输入答案内容!');
+                    return false;
                 }
-            },
+                const data = {
+                    body: this.answer_body,
+                    user_id: this.user_id,
+                    question_id: this.$route.params.id,
+                }
+                axios.post('/api/questions/' + this.$route.params.id + '/answer', data).then((response) => {
+                    console.log(this.root);
+                    this.answers.push(response.data.data);
+                    this.answer_body = '';
+                    // this.answer_count++
+                })
+            }
         }
     }
 </script>
 
 <style scoped>
-    .media,.media-body{
-        overflow: inherit;
+    .PostStream-item{
+        margin-top:20px;
     }
-    .media-body {
-        margin-left: 10px;
+    .Post {
+        padding: 20px;
+        margin: -1px -20px;
+        -webkit-transition: box-shadow .2s,top .2s,opacity .2s;
+        transition: box-shadow .2s,top .2s,opacity .2s;
+        position: relative;
+        top: 0;
+        border-radius: 4px;
+        padding-left: 80px;
+        border-bottom: 1px solid #e7edf3;
     }
-    li {
-        display: inline-block;
-        margin-left: -40px;
+    .EventPost, .EventPost a {
+        color: #7089a9;
     }
-    .answer-left {
-        display: inline;
+    .Post:after, .Post:before {
+        content: " ";
+        display: table;
     }
-    .answer-right {
-        display: inline;
+    .EventPost-info {
+        font-size: 14px;
     }
-    .answer-comments {
-        margin-left: 20px;
-        margin-top: 5px;
+    .EventPost a {
+        font-weight: 700;
     }
-    .more {
-        margin-left: auto;
-        margin-right: auto;
+    .EventPost, .EventPost a {
+        color: #7089a9;
+    }
+    .EventPost-icon {
+        text-align: right;
+        margin-left: -85px;
+        width: 64px;
+        font-size: 22px;
+    }
+    .EventPost-icon {
+        float: left;
     }
 </style>

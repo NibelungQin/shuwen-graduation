@@ -23,9 +23,6 @@
                     <li class="nav-item">
                         <router-link class="nav-link" :to="'/book/category'">问书</router-link>
                     </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" :to="'/questions/create'">发起问题</router-link>
-                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

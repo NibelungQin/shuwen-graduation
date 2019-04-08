@@ -17,18 +17,7 @@ class AnswerController extends Controller
     public function index($id)
     {
         $answers = $this->answerRepository->getAnswer($id);
-        $pagination = [
-            'total' => $answers->total(),
-            'per_page' => $answers->perPage(),
-            'current_page' => $answers->currentPage(),
-            'last_page' => $answers->lastPage(),
-            'from' => $answers->firstItem(),
-            'to' => $answers->lastItem()
-        ];
-        return response()->json([
-            'pagination' => $pagination,
-            'data'       => $answers
-        ],200);
+        return response()->json($answers,200);
     }
 
     /**
@@ -39,13 +28,15 @@ class AnswerController extends Controller
     public function store($question)
     {
         $data = [
-            'user_id'     => user('apid')->id,
+            'user_id'     => user('api')->id,
             'question_id' => $question,
             'body'        => \request('body')
         ];
         $answer = $this->answerRepository->create($data);
         $answer->questions()->increment('answers_count');
+        $newAnswer = $this->answerRepository->byId($answer->id);
         return response()->json([
+            'data' => $newAnswer,
             'status'  => true,
             'message' => '答案添加成功'
         ],200);

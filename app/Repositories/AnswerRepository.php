@@ -24,7 +24,12 @@ class AnswerRepository
             'question_id' => $id,
             'is_hidden'   => 'F',
         ];
-        return Answer::where($where)->with('user','comments')->latest()->paginate(10);
+        return Answer::where($where)
+            ->with(['user'=>function($query){
+                return $query->select(['id','name','avatar']);
+            }])
+            ->latest()
+            ->get();
     }
 
     /**
@@ -44,7 +49,11 @@ class AnswerRepository
      */
     public function byId($id)
     {
-        return Answer::find($id);
+        return Answer::where('id',$id)
+            ->with(['user'=>function($query){
+                return $query->select(['id','name','avatar']);
+            }])
+            ->first();
     }
 
     public function getAnswerCommentsById($id)

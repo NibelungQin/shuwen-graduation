@@ -35,19 +35,14 @@
                             </div>
                         </div>
                         <div class="text-center" style="margin-top: 20px">
-                            <button type="button" id="mainLike"class="btn btn-success btn-lg active">
-                                <span id="mainLikeText">已赞</span>
-                                &nbsp;&nbsp;
-                                <span class="seprator">|</span>&nbsp;&nbsp;
-                                <span id="mainLikeNum">7</span>
-                            </button>
+                            <user-vote-button></user-vote-button>
                             <button type="button" id="mainBookmark" data-type="article" class="btn btn-primary btn-lg ">
                                 <span id="mainBookmarkText">收藏</span>&nbsp;&nbsp;
                                 <span class="seprator">|</span>&nbsp;&nbsp;
                                 <span id="mainBookmarkNum">4</span>
                             </button>
                         </div>
-                        <div>
+                        <div class="comment">
                             <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="article.id"></comment-post>
                         </div>
                     </div>
@@ -63,11 +58,13 @@
 <script>
     import moment from 'moment'
     import CommentPost from  '../comment/CommentPost'
+    import UserVoteButton from './UserVoteButton'
     import {mapState} from 'vuex'
     import JWT from '../../helpers/jwt'
     export default {
         name: "Show",
         components:{
+            UserVoteButton,
             CommentPost,
         },
         data() {

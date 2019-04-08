@@ -110,11 +110,6 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
-
     public function chats()
     {
         return $this->hasMany(Chat::class);
