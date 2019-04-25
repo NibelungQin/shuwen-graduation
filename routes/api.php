@@ -22,6 +22,8 @@ Route::post('/login','Auth\LoginController@login');
 Route::post('/logout','Auth\LoginController@logout');
 Route::post('/token/refresh','Auth\LoginController@refresh');
 
+Route::get('/home/carousel','HomeController@carousel');
+
 Route::get('/articles','ArticlesController@index');
 Route::post('/articles','ArticlesController@store');
 Route::get('/articles/{id}','ArticlesController@show');
@@ -30,12 +32,14 @@ Route::post('/articles/{id}','ArticlesController@update');
 Route::get('commentable/{commentableId}/comment', 'CommentController@show')->name('comments.show');
 Route::delete('comments/{id}', 'CommentController@destroy')->name('comments.destroy');
 
+# ------------------- 用户详情 ----------------------------
+Route::get('users/{username}', 'UserController@show')->name('users.show');
 # ------------------- 修改头像 ----------------------------
 Route::put('users/{username}/avatar', 'UserController@avatar')->name('users.avatar');
 # ------------------- 用户评论 ----------------------------
-//Route::get('users/{username}/replies', 'UserController@replies')->name('users.replies');
+Route::get('users/{username}/replies', 'UserController@replies')->name('users.replies');
 # ------------------- 用户关注 ----------------------------
-//Route::get('users/{username}/following', 'UserController@following')->name('users.following');
+Route::get('users/{username}/following', 'UserController@following')->name('users.following');
 
 Route::get('/questions','QuestionController@index');
 Route::post('/questions','QuestionController@store');
@@ -73,3 +77,9 @@ Route::post('/friend/accept','FriendController@receiver');
 Route::get('/topics','TopicController@index');
 
 Route::post('/upload/img','UploadController@image');
+
+
+Route::get('/book/category','BookController@category');
+Route::get('/book/novelList','BookController@novelList');
+Route::get('/book/catDetail','BookController@catDetail');
+Route::get('/book/getBook','BookController@getBook');

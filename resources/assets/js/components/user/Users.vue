@@ -13,9 +13,9 @@
                                     <img :src="user.avatar" alt="Avatar" class="avatar__2sMj">
                                 </a>
                             </div>
-                            <!--<div style="color: #aaa;margin: 5px 0 0 0;text-align:center;">-->
-                                <!--最后活跃于-->
-                            <!--</div>-->
+                            <div style="color: #aaa;margin: 5px 0 0 0;text-align:center;">
+                                最后活跃于
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <div class="user-info__2aLr">
@@ -23,15 +23,15 @@
                                     {{ user.name }}
                                 </div>
                                 <div class="description">
-                                    23333
                                 </div>
-                                <div class="action" v-if="user.authenticated">
+                                <div class="action">
                                         <span>
                                               <router-link class="btn btn-primary" :to="'/users/' + user.name + '/edit'">编辑资料</router-link>
                                         </span>
                                 </div>
-                                <div class="action" v-else>
-
+                                <div class="action">
+                                    <button class="btn btn-danger">关注</button>
+                                    <send-message :user="user.id"></send-message>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                 <div class="col-md-6">
                                     <div class="experience">
                                         <h4 class="experience-count">
-                                            <p>10</p>
+                                            <p>{{user.followings_count}}</p>
                                             <span slot="intro">关注</span>
                                         </h4>
                                     </div>
@@ -48,7 +48,7 @@
                                 <div class="col-md-6">
                                     <div class="experience">
                                         <h4 class="experience-count">
-                                            <p>10</p>
+                                            <p>{{user.comments_count}}</p>
                                             <span slot="intro">评论数</span>
                                         </h4>
                                     </div>
@@ -103,47 +103,49 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import JWT from '../../helpers/jwt'
+    import SendMessage from '../message/SendMessage'
     export default {
         components: {
+            SendMessage
         },
         data() {
             return {
-                // user:{
-                //     followings_count: 0,
-                //     comments_count: 0,
-                //     is_following: false
-                // },
+                user:{
+                    followings_count: 0,
+                    comments_count: 0,
+                    is_following: false
+                },
                 comments_name: 'comments_name',
                 followings_name: 'followings_name',
             }
         },
         computed: {
-            ...mapState({
-                user: state=>state.AuthUser
-            })
+            is_login() {
+                return JWT.getToken() ? true : false
+            },
         },
-        // watch: {
-        //     '$route' (to, from) {
-        //         this.loadData()
-        //     }
-        // },
-        // created() {
-        //     this.loadData()
-        // },
-        // methods: {
-        //     following(id) {
-        //         this.$http.post('users/' + id + '/follow').then((response) => {
-        //             return this.user.is_following = ! this.user.is_following
-        //         })
-        //     },
-        //     loadData() {
-        //         this.$http.get('users/' + this.$route.params.name).then((response) => {
-        //             this.user = response.data
-        //             document.title = this.user.name + ' 个人信息 | cocoyo'
-        //         })
-        //     }
-        // },
+        watch: {
+            '$route' (to, from) {
+                this.loadData()
+            }
+        },
+        created() {
+            this.loadData()
+        },
+        methods: {
+            // following(id) {
+            //     this.$http.post('users/' + id + '/follow').then((response) => {
+            //         return this.user.is_following = ! this.user.is_following
+            //     })
+            // },
+            loadData() {
+                axios.get('/api/users/' + this.$route.params.name).then((response) => {
+                    this.user = response.data
+                    document.title = this.user.name + ' 个人信息 | NibelungQin'
+                })
+            }
+        },
     }
 </script>
 

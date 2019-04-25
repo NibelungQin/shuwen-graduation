@@ -20,7 +20,8 @@ class CommentResource extends JsonResource
             'parent_id' => $this->parent_id,
             'reply_user' => $this->reply_user,
             'body' => $this->body,
-            'created_at' => $this->created_at,
+            'commentable' => $this->whenLoaded('commentable'),
+            'created_at' => $this->created_at->diffForHumans(),
         ];
     }
 }

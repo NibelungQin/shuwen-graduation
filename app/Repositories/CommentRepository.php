@@ -36,6 +36,28 @@ class CommentRepository
         return $comments;
     }
 
+    public function userReply($userId)
+    {
+        $comments = Comment::where([
+                ['user_id',$userId],
+                ['parent_id',0],
+                ['commentable_type','<>','App\\Model\\Answer']
+            ])
+            ->orWhere([
+                ['reply_user_id',$userId],
+                ['parent_id','<>',0],
+                ['commentable_type','<>','App\\Model\\Answer']
+            ])
+            ->with(['user' => function ($query) {
+                return $query->select('id', 'name', 'avatar');
+            }, 'reply_user' => function ($query) {
+                return $query->select('id', 'name', 'avatar');
+            }, 'commentable'])
+            ->latest()
+            ->paginate(10);
+        return $comments;
+    }
+
     public function byId($id)
     {
         return Comment::find($id);

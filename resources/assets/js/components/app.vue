@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height: 100%;">
         <top-menu></top-menu>
         <transition name="fade" mode="out-in">
             <router-view></router-view>

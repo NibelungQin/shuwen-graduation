@@ -5,6 +5,7 @@ let routes = [
     {
         path: '/',
         name: 'home',
+        component: require('./components/index/Index'),
         meta: {}
     },
     {
@@ -156,37 +157,19 @@ let routes = [
     {
         path: '/book/category',
         name: 'bookCategory',
-        component: require('./components/category/BookCategory'),
+        component: require('./components/book/BookCategory'),
         meta: {}
     },
     {
         path: '/book/categoryDetail/:gender/:major',
         name: 'bookcatDetail',
-        component: require('./components/category/BookcatDetail'),
+        component: require('./components/book/BookcatDetail'),
         meta: {}
-    },
-    {
-        path:'/chat',
-        name: 'chat',
-        component: require('./components/chat/Chat'),
-        meta: {requireAuth: true}
-    },
-    {
-        path:'/chat/item',
-        name: 'chatItem',
-        component: require('./components/chat/ChatItem'),
-        meta: {requireAuth: true}
-    },
-    {
-        path:'/chat/area',
-        name: 'chatArea',
-        component: require('./components/chat/ChatArea'),
-        meta: {requireAuth: true}
     },
     {
         path: '/bookcat/detail',
         name: 'bookcatDetail',
-        component: require('./components/category/BookcatDetail')
+        component: require('./components/book/BookcatDetail')
     },
     {
         path: '/readbook/:bookId',
@@ -196,7 +179,7 @@ let routes = [
     {
         path: '/book/:bookId',
         name: 'book',
-        component: require('./components/common/Book')
+        component: require('./components/book/Book')
     },
     {
         path: '/changeSource/:bookId',
@@ -216,6 +199,26 @@ let routes = [
     //         }
     //     ]
     // }
+
+    {
+        path:'/chat',
+        name: 'chat',
+        component: require('./components/chat/Chat'),
+        meta: {requireAuth: true}
+    },
+    {
+        path:'/chat/item',
+        name: 'chatItem',
+        component: require('./components/chat/ChatItem'),
+        meta: {requireAuth: true}
+    },
+    {
+        path:'/chat/area',
+        name: 'chatArea',
+        component: require('./components/chat/ChatArea'),
+        meta: {requireAuth: true}
+    },
+
 ]
 const router = new VueRouter({
     mode: 'history',

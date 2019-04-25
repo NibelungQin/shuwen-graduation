@@ -84,7 +84,7 @@
         border-bottom: 1px solid #d6d6d6;
         background-color: #eee;
         text-align: center;
-        z-index: 1024;
+        z-index: 0;
     }
     .title {
         font-weight: 400;

@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="side-widget">
-                            <i class="zi zi_tag"></i>
+                            <i class="zi zi_tag">dd</i>
                         </div>
                     </div>
                     <div class="col-md-10" v-if="article">

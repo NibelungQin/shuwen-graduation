@@ -38,7 +38,7 @@ class AnswerController extends Controller
         return response()->json([
             'data' => $newAnswer,
             'status'  => true,
-            'message' => '答案添加成功'
+            'message' => '答案添加成功',
         ],200);
     }
 

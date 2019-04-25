@@ -17,4 +17,16 @@ class UserRepository
     {
         return User::find($id);
     }
+
+    /**
+     * 获取用户
+     *
+     * @param $username
+     * @return mixed
+     */
+    public function getUserByName($username)
+    {
+        $user = User::where('name', $username)->first();
+        return $user;
+    }
 }

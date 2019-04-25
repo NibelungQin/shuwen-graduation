@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\QuestionCreated;
 use App\Events\QuestionViewEvent;
+use App\Http\Resources\QuestionResource;
 use App\Repositories\QuestionRepository;
 use App\Repositories\TopicRepository;
 use Illuminate\Http\Request;
@@ -27,12 +28,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $page = \request('page',0);
-        $questions = $this->questionRepository->getQuestionFeed($page-1);
-        return response()->json([
-            'questions'=>$questions['questions'],
-            'count'=>$questions['count']
-        ]);
+        $questions = $this->questionRepository->getQuestionFeed();
+        return QuestionResource::collection($questions);
     }
 
     /**

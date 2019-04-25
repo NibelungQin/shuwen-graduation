@@ -23,11 +23,13 @@ class QuestionRepository
         return Question::where('id',$id)->withCount('answers')->with(['topics','comments','user'])->first();
     }
 
-    public function getQuestionFeed($page=0)
+    public function getQuestionFeed()
     {
-        $count = count(Question::all());
-        $questions = Question::latest('created_at')->with('user')->offset($page)->limit(10)->get();
-        return ['count'=>$count, 'questions'=>$questions];
+        $questions = Question::latest('created_at')->paginate(10);
+        $questions->load(['user'=>function($query){
+            return $query->select(['id','name','avatar']);
+        }]);
+        return $questions;
     }
 
     /**

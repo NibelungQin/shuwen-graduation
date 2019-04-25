@@ -4,6 +4,7 @@ namespace App;
 
 use App\Model\Answer;
 use App\Model\Chat;
+use App\Model\Comment;
 use App\Model\Post;
 use App\Model\Question;
 use Illuminate\Notifications\Notifiable;
@@ -108,6 +109,11 @@ class User extends Authenticatable
     public function answers()
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderBy('created_at','desc');
     }
 
     public function chats()

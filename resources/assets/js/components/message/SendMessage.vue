@@ -1,7 +1,7 @@
 <template>
     <div>
         <button
-                class="btn btn-primary btn-sm"
+                class="btn btn-success"
                 @click="showSendMessageForm"
         >发送私信</button>
         <div class="modal fade" id="modal-send-message" tabindex="-1" role="dialog">

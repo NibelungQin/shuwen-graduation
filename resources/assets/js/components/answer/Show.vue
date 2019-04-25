@@ -44,17 +44,13 @@
                 answers: [],
                 answer_body: '',
                 is_show: false,
+                answer_count: this.answerCount
             }
         },
         mounted() {
             axios.get('/api/questions/' + this.$route.params.id + '/answer').then(response=>{
                 this.answers = response.data
             })
-        },
-        computed: {
-            answer_count(){
-                return this.answerCount
-            }
         },
         methods: {
             post_answer(){
@@ -68,10 +64,9 @@
                     question_id: this.$route.params.id,
                 }
                 axios.post('/api/questions/' + this.$route.params.id + '/answer', data).then((response) => {
-                    console.log(this.root);
                     this.answers.push(response.data.data);
                     this.answer_body = '';
-                    // this.answer_count++
+                    this.answer_count++
                 })
             }
         }
