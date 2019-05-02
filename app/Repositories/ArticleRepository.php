@@ -18,7 +18,7 @@ use App\Model\Article;
 class ArticleRepository
 {
     /**
-     * 获得所以分页帖子
+     * 获得所有分页帖子
      * @return mixed
      */
     public function getArticleFeed()
@@ -52,5 +52,14 @@ class ArticleRepository
             return $query->select(['id','name','avatar']);
         },'topics','comments']);
         return $article;
+    }
+
+    /**
+     * 获得最新轮播图（6条）
+     * @return mixed
+     */
+    public function carousel()
+    {
+        return Article::latest('created_at')->take(6)->get();
     }
 }

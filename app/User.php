@@ -7,6 +7,7 @@ use App\Model\Chat;
 use App\Model\Comment;
 use App\Model\Post;
 use App\Model\Question;
+use App\Model\Read;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -91,6 +92,10 @@ class User extends Authenticatable
         return !!$this->votes()->where('answer_id', $answer)->count();
     }
 
+    /**
+     * 用户关联其他用户
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function followers()
     {
         return $this->belongsToMany(self::class,'followers','follower_id','followed_id')->withTimestamps();
@@ -101,19 +106,41 @@ class User extends Authenticatable
         return $this->belongsToMany(self::class,'followers','followed_id','follower_id')->withTimestamps();
     }
 
+    /**
+     * 用户是否已关联其他用户
+     * @param $user
+     * @return array
+     */
     public function followThisUser($user)
     {
         return $this->followers()->toggle($user);
     }
 
+    /**
+     * 用户与回答关联
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function answers()
     {
         return $this->hasMany(Answer::class);
     }
 
+    /**
+     * 用户与评论关联
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class)->orderBy('created_at','desc');
+    }
+
+    /**
+     * 用户与浏览记录关联
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reads()
+    {
+        return $this->hasMany(Read::class,'user_id');
     }
 
     public function chats()

@@ -73,7 +73,7 @@
     }
 </script>
 
-<style lang="less">
+<style scoped>
     .section__3bS4 {
         padding: 10px 15px;
         border: none;

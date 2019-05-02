@@ -37,4 +37,9 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class, 'question_id');
     }
+
+    public function reads()
+    {
+        return $this->morphMany(Read::class, 'readable');
+    }
 }

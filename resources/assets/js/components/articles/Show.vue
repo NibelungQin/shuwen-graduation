@@ -115,6 +115,7 @@
         border-radius: 2px;
     }
     .main-content {
+        height: 100%;
         padding: 25px 0!important;
         background: #f5f5f1!important;
     }

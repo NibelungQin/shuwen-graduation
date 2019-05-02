@@ -143,6 +143,12 @@ let routes = [
         meta: {requireAuth: true}
     },
     {
+        path: '/reads',
+        name: 'reads',
+        component: require('./components/readlog/ReadLog'),
+        meta: {requireAuth: true}
+    },
+    {
         path: '/inbox',
         name: 'inbox',
         component: require('./components/inbox/Index'),

@@ -46,7 +46,7 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(ElementUI);
 Vue.use(iView);
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 Vue.use(VueQuillEditor);
 Vue.component('app',App);
 

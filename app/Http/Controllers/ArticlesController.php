@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleResource;
 use App\Repositories\ArticleRepository;
+use App\Repositories\ReadRepository;
 use App\Repositories\TopicRepository;
 use Illuminate\Http\Request;
 
@@ -11,12 +12,15 @@ class ArticlesController extends Controller
 {
     protected $topicRepository;
     protected $articleRepository;
+    protected $readRepository;
 
     public function __construct(TopicRepository $topicRepository,
-                                ArticleRepository $articleRepository)
+                                ArticleRepository $articleRepository,
+                                ReadRepository $readRepository)
     {
         $this->topicRepository = $topicRepository;
         $this->articleRepository = $articleRepository;
+        $this->readRepository = $readRepository;
     }
 
     /**
@@ -65,6 +69,7 @@ class ArticlesController extends Controller
     public function show($id)
     {
         $article = $this->articleRepository->byIdWithTopicAndUser($id);
+        $this->readRepository->store($id,'App\Model\Article');
         return $article;
     }
 

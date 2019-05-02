@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%;">
-        <top-menu></top-menu>
+        <top-menu class="menu"></top-menu>
         <transition name="fade" mode="out-in">
             <router-view></router-view>
         </transition>
@@ -26,4 +26,7 @@
 </script>
 
 <style scoped>
+    .menu {
+        z-index: 99;
+    }
 </style>

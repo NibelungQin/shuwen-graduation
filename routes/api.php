@@ -23,6 +23,9 @@ Route::post('/logout','Auth\LoginController@logout');
 Route::post('/token/refresh','Auth\LoginController@refresh');
 
 Route::get('/home/carousel','HomeController@carousel');
+Route::get('/home/readLog','HomeController@readLog');
+
+Route::get('/reads','ReadController@index');
 
 Route::get('/articles','ArticlesController@index');
 Route::post('/articles','ArticlesController@store');

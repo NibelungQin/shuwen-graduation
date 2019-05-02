@@ -72,6 +72,13 @@
                             </router-link>
                         </div>
                     </li>
+                    <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
+                        <div class="uk-navbar-content">
+                            <router-link :to="'/reads'">
+                                <Icon type="md-time" style="font-size:25px;color:#8590a6"></Icon>
+                            </router-link>
+                        </div>
+                    </li>
                     <li v-if="user.authenticated" class="nav-item dropdown ">
                         <Dropdown>
                             <a href="javascript:void(0)">
@@ -110,6 +117,7 @@
                 </ul>
             </div>
         </div>
+
     </nav>
 </template>
 
@@ -120,7 +128,7 @@
     export default {
         data() {
             return {
-                count: 0
+                count: 0,
             }
         },
         // created(){

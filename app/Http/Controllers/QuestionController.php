@@ -6,6 +6,7 @@ use App\Events\QuestionCreated;
 use App\Events\QuestionViewEvent;
 use App\Http\Resources\QuestionResource;
 use App\Repositories\QuestionRepository;
+use App\Repositories\ReadRepository;
 use App\Repositories\TopicRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +15,15 @@ class QuestionController extends Controller
 {
     protected $questionRepository;
     protected $topicRepository;
+    protected $readRepository;
 
     public function __construct(QuestionRepository $questionRepository,
-                                   TopicRepository $topicRepository)
+                                   TopicRepository $topicRepository,
+                                ReadRepository $readRepository)
     {
         $this->questionRepository = $questionRepository;
         $this->topicRepository = $topicRepository;
+        $this->readRepository = $readRepository;
     }
 
     /**
@@ -65,6 +69,7 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = $this->questionRepository->byIdWithTopicAndUser($id);
+        $this->readRepository->store($id,'App\Model\Question');
         //获取客户端请求的IP
         $ip = \request()->getClientIp();
         //触发浏览次数统计时间

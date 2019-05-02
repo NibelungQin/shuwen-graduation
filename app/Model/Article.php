@@ -24,4 +24,9 @@ class Article extends Model
     {
         return $this->morphMany('App\Model\Comment', 'commentable');
     }
+
+    public function reads()
+    {
+        return $this->morphMany(Read::class, 'readable');
+    }
 }

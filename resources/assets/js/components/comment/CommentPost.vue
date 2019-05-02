@@ -91,7 +91,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style scoped>
     .PostStream-item{
         margin-top:20px;
     }
