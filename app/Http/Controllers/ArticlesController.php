@@ -69,7 +69,9 @@ class ArticlesController extends Controller
     public function show($id)
     {
         $article = $this->articleRepository->byIdWithTopicAndUser($id);
-        $this->readRepository->store($id,'App\Model\Article');
+        if (user('api')){
+            $this->readRepository->store($id,'App\Model\Article');
+        }
         return $article;
     }
 

@@ -5,7 +5,7 @@
                 <div class="col-md-12">
                     <carousel></carousel>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-8 aa">
                     <div class="col-md-12">
                         <articles></articles>
                     </div>
@@ -13,11 +13,11 @@
                         <questions></questions>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="col-md-12 bb">
                         <recommend></recommend>
                     </div>
-                    <div class="col-md-12">
+                    <div v-if="is_login" class="col-md-12 cc">
                         <read-log></read-log>
                     </div>
                 </div>
@@ -100,5 +100,15 @@
         height: 100%;
         padding: 25px 0!important;
         background: #f5f5f1!important;
+    }
+    .aa {
+         background: white;
+     }
+    .bb {
+        margin-top: -15px;
+        background: white;
+    }
+    .cc {
+        background: white;
     }
 </style>

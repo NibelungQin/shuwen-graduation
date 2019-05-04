@@ -24,13 +24,13 @@
                                 </div>
                                 <div class="description">
                                 </div>
-                                <div class="action">
+                                <div v-if="auth.id == user.id" class="action">
                                         <span>
                                               <router-link class="btn btn-primary" :to="'/users/' + user.name + '/edit'">编辑资料</router-link>
                                         </span>
                                 </div>
-                                <div class="action">
-                                    <button class="btn btn-danger">关注</button>
+                                <div v-else class="action">
+                                    <user-follow-button :user="user.id" class="float-left" style="margin-right:10px"></user-follow-button>
                                     <send-message :user="user.id"></send-message>
                                 </div>
                             </div>
@@ -103,11 +103,14 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     import JWT from '../../helpers/jwt'
     import SendMessage from '../message/SendMessage'
+    import UserFollowButton from '../question/UserFollowButton'
     export default {
         components: {
-            SendMessage
+            SendMessage,
+            UserFollowButton
         },
         data() {
             return {
@@ -121,9 +124,9 @@
             }
         },
         computed: {
-            is_login() {
-                return JWT.getToken() ? true : false
-            },
+            ...mapState({
+                auth: state=>state.AuthUser
+            })
         },
         watch: {
             '$route' (to, from) {

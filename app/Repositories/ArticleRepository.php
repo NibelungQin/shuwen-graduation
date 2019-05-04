@@ -62,4 +62,9 @@ class ArticleRepository
     {
         return Article::latest('created_at')->take(6)->get();
     }
+
+    public function homeArticles()
+    {
+        return Article::latest('created_at')->take(4)->get();
+    }
 }

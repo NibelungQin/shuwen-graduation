@@ -10,7 +10,7 @@
 <script>
     export default {
         name: "QuestionFollowButton",
-        props: ['question'],
+        props: ['question','can'],
         data() {
             return {
                 followed: true,
@@ -30,10 +30,14 @@
         },
         methods: {
             follow(){
-                axios.post('/api/question/follow', {'question': this.question}).then(response=>{
-                    this.followed = response.data.followed
-                    this.count = response.data.count
-                })
+                if (this.can) {
+                    axios.post('/api/question/follow', {'question': this.question}).then(response=>{
+                        this.followed = response.data.followed
+                        this.count = response.data.count
+                    })
+                }else {
+                    this.$Message.warning('你需要登录才可以关注！');
+                }
             }
         }
     }

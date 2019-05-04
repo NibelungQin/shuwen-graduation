@@ -1,5 +1,6 @@
 <template>
     <div class="section__3bS4">
+        [问答]
         <router-link :to="'/questions/' + id">
             {{title}}
         </router-link>

@@ -30,8 +30,8 @@
                             </div>
                         </div>
                         <div class="visit">
-                            <question-follow-button :question="question.id"></question-follow-button>
-                            <button class="btn btn-dark btn-sm">收藏</button>
+                            <question-follow-button :can="can_comment" :question="question.id"></question-follow-button>
+                            <user-vote-button :can="can_comment" :question="question.id" :number="question.votes_count"></user-vote-button>
                             <a @click="show_comment"><Icon type="md-create" />评论</a>
                             <div v-if="is_show" style="margin-left: 30px;background-color: white">
                                 <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="question.id" :commentableType="commentableType"></comment-post>
@@ -54,6 +54,7 @@
     import moment from 'moment'
     import QuestionFollowButton from './QuestionFollowButton'
     import CommentPost from  '../comment/CommentPost'
+    import UserVoteButton from './UserVoteButton'
     import Answer from '../answer/Show'
     import {mapState} from 'vuex'
     import JWT from '../../helpers/jwt'
@@ -63,6 +64,7 @@
             Answer,
             QuestionFollowButton,
             CommentPost,
+            UserVoteButton,
         },
         data() {
             return {

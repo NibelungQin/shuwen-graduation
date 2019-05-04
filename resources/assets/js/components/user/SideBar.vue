@@ -22,14 +22,14 @@
                                         </div>
                                     </router-link>
                                 </MenuItem>
-                                <MenuItem name="3">
-                                    <router-link :to="'/users/' + user.name + '/edit_email_notify'" style="color: #495060;">
-                                        <div style="width: 100%">
-                                            <Icon type="md-notifications"></Icon>
-                                            消息通知
-                                        </div>
-                                    </router-link>
-                                </MenuItem>
+                                <!--<MenuItem name="3">-->
+                                    <!--<router-link :to="'/users/' + user.name + '/edit_email_notify'" style="color: #495060;">-->
+                                        <!--<div style="width: 100%">-->
+                                            <!--<Icon type="md-notifications"></Icon>-->
+                                            <!--消息通知-->
+                                        <!--</div>-->
+                                    <!--</router-link>-->
+                                <!--</MenuItem>-->
                                 <MenuItem name="4">
                                     <router-link :to="'/users/' + user.name + '/edit_password'" style="color: #495060;">
                                         <div style="width: 100%">

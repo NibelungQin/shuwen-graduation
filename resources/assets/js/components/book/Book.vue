@@ -79,7 +79,7 @@
         },
         created () {
             // 获取小说详情
-            axios.get('api/book/getBook',{params:{bookId:this.$route.params.bookId}}).then(response => {
+            axios.get('/api/book/getBook',{params:{bookId:this.$route.params.bookId}}).then(response => {
                 this.book = response.data
                 this.isFollowBook()
             }, err => {

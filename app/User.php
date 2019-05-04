@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Model\Answer;
+use App\Model\Article;
 use App\Model\Chat;
 use App\Model\Comment;
 use App\Model\Post;
@@ -33,6 +34,87 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * 进行用户与文章关联
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function articleFollows()
+    {
+        return $this->belongsToMany(Article::class, 'user_article')->withTimeStamps();
+    }
+
+    /**
+     * 进行用户与文章关联操作
+     * @param $article
+     * @return array
+     */
+    public function ArticleFollowThis($article)
+    {
+        return $this->articleFollows()->toggle($article);
+    }
+
+    /**
+     * 判断用户是否关注文章
+     * @param $article
+     * @return bool
+     */
+    public function articleFollowed($article)
+    {
+        return !!$this->articleFollows()->where('article_id', $article)->count();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function articleVotes()
+    {
+        return $this->belongsToMany(Article::class,'article_vote')->withTimestamps();
+    }
+
+    /**
+     * @param $article
+     * @return array
+     */
+    public function articleVoteFor($article)
+    {
+        return $this->articleVotes()->toggle($article);
+    }
+
+    /**
+     * @param $article
+     * @return bool
+     */
+    public function articleHasVotedFor($article)
+    {
+        return !!$this->articleVotes()->where('article_id', $article)->count();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function questionVotes()
+    {
+        return $this->belongsToMany(Question::class,'question_vote')->withTimestamps();
+    }
+
+    /**
+     * @param $article
+     * @return array
+     */
+    public function questionVoteFor($article)
+    {
+        return $this->questionVotes()->toggle($article);
+    }
+
+    /**
+     * @param $article
+     * @return bool
+     */
+    public function questionHasVotedFor($article)
+    {
+        return !!$this->questionVotes()->where('question_id', $article)->count();
+    }
 
     /**
      * 进行用户与问题关联

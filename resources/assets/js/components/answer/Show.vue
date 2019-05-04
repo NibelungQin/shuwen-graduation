@@ -16,7 +16,9 @@
             </div>
         </div>
         <div v-if="! canComment">
-            <button class="btn btn-block" style="background-color:#F96854 !important;color: #fff !important;">登陆发表评论</button>
+            <router-link :to="'/login'">
+                <button class="btn btn-block" style="background-color:#F96854 !important;color: #fff !important;">登陆发表回答</button>
+            </router-link>
         </div>
         <div v-else>
             <Form>

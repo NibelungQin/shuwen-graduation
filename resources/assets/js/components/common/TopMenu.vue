@@ -41,7 +41,7 @@
 
                     <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
                         <div class="uk-navbar-content">
-                            <Dropdown trigger="click" style="margin-left: 20px">
+                            <Dropdown trigger="hover" style="margin-left: 20px">
                                 <a href="javascript:void(0)">
                                     <Icon type="md-add" style="font-size:25px;color:#8590a6"></Icon>
                                 </a>
@@ -58,25 +58,31 @@
                     </li>
                     <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
                         <div class="uk-navbar-content">
-                            <a @click="jumpNotification">
-                                <Badge :count="count" :class="notification_count">
-                                    <Icon type="md-notifications" style="font-size:25px;color:#8590a6"></Icon>
-                                </Badge>
-                            </a>
+                            <Tooltip content="消息" placement="bottom">
+                                <a @click="jumpNotification">
+                                    <Badge :count="count" :class="notification_count">
+                                        <Icon type="md-notifications" style="font-size:25px;color:#8590a6"></Icon>
+                                    </Badge>
+                                </a>
+                            </Tooltip>
                         </div>
                     </li><!--<li v-if="user.authenticated"><img :src="user.avatar" id="firstAvatar"  class="rounded-circle" width="40" height="40" alt=""></li>-->
                     <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
                         <div class="uk-navbar-content">
-                            <router-link :to="'/inbox'">
-                                <Icon type="md-mail" style="font-size:25px;color:#8590a6"></Icon>
-                            </router-link>
+                            <Tooltip content="私信" placement="bottom">
+                                <router-link :to="'/inbox'">
+                                    <Icon type="md-mail" style="font-size:25px;color:#8590a6"></Icon>
+                                </router-link>
+                            </Tooltip>
                         </div>
                     </li>
                     <li v-if="user.authenticated" class="uk-navbar-flip uk-hidden-small">
                         <div class="uk-navbar-content">
-                            <router-link :to="'/reads'">
-                                <Icon type="md-time" style="font-size:25px;color:#8590a6"></Icon>
-                            </router-link>
+                            <Tooltip content="阅读记录" placement="bottom">
+                                <router-link :to="'/reads'">
+                                    <Icon type="md-time" style="font-size:25px;color:#8590a6"></Icon>
+                                </router-link>
+                            </Tooltip>
                         </div>
                     </li>
                     <li v-if="user.authenticated" class="nav-item dropdown ">
@@ -88,7 +94,7 @@
                                 <b class="caret"></b>&nbsp;&nbsp;
                             </a>
                             <DropdownMenu slot="list">
-                                <router-link to="/users">
+                                <router-link :to="'/users/' + user.name">
                                     <DropdownItem>
                                         <Icon type="md-person"></Icon>&nbsp;&nbsp;<span>个人中心</span>
                                     </DropdownItem>

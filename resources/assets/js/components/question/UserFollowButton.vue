@@ -1,6 +1,6 @@
 <template>
     <button
-            class="btn btn-sm btn-secondary"
+            class="btn btn-secondary"
             :class="{'btn-danger' : followed}"
             v-text="text"
             @click="follow"

@@ -69,7 +69,9 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = $this->questionRepository->byIdWithTopicAndUser($id);
-        $this->readRepository->store($id,'App\Model\Question');
+        if (user('api')){
+            $this->readRepository->store($id,'App\Model\Question');
+        }
         //获取客户端请求的IP
         $ip = \request()->getClientIp();
         //触发浏览次数统计时间

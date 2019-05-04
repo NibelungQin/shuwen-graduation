@@ -3,12 +3,12 @@
         <div class="content--wrap">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="side-widget">
-                            <i class="zi zi_tag">dd</i>
-                        </div>
-                    </div>
-                    <div class="col-md-10" v-if="article">
+                    <!--<div class="col-md-2">-->
+                        <!--<div class="side-widget">-->
+                            <!--<i class="zi zi_tag">dd</i>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="col-md-10 offset-md-1" v-if="article">
                         <h1 class="article-title">{{article.title}}</h1>
                         <div class="meta">
                             <div class="user-card">
@@ -35,12 +35,8 @@
                             </div>
                         </div>
                         <div class="text-center" style="margin-top: 20px">
-                            <user-vote-button></user-vote-button>
-                            <button type="button" id="mainBookmark" data-type="article" class="btn btn-primary btn-lg ">
-                                <span id="mainBookmarkText">收藏</span>&nbsp;&nbsp;
-                                <span class="seprator">|</span>&nbsp;&nbsp;
-                                <span id="mainBookmarkNum">4</span>
-                            </button>
+                            <article-follow-button :can="can_comment" :article="article.id"></article-follow-button>
+                            <user-vote-button :can="can_comment" :article="article.id" :number="article.votes_count"></user-vote-button>
                         </div>
                         <div class="comment">
                             <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="article.id"></comment-post>
@@ -59,6 +55,7 @@
     import moment from 'moment'
     import CommentPost from  '../comment/CommentPost'
     import UserVoteButton from './UserVoteButton'
+    import ArticleFollowButton from './ArticleFollowButton'
     import {mapState} from 'vuex'
     import JWT from '../../helpers/jwt'
     export default {
@@ -66,6 +63,7 @@
         components:{
             UserVoteButton,
             CommentPost,
+            ArticleFollowButton,
         },
         data() {
             return {

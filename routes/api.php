@@ -24,6 +24,10 @@ Route::post('/token/refresh','Auth\LoginController@refresh');
 
 Route::get('/home/carousel','HomeController@carousel');
 Route::get('/home/readLog','HomeController@readLog');
+Route::get('/home/articles','HomeController@articles');
+Route::get('/home/questions','HomeController@questions');
+Route::get('/home/recommend','HomeController@recommend');
+Route::get('/home/reads','HomeController@reads');
 
 Route::get('/reads','ReadController@index');
 
@@ -31,6 +35,12 @@ Route::get('/articles','ArticlesController@index');
 Route::post('/articles','ArticlesController@store');
 Route::get('/articles/{id}','ArticlesController@show');
 Route::post('/articles/{id}','ArticlesController@update');
+
+Route::post('/article/follower','ArticleFollowController@follower');
+Route::post('/article/follow','ArticleFollowController@followThisArticle');
+
+Route::post('/article/{id}/votes/users','VoteController@articleVoted');
+Route::post('/article/vote','VoteController@voteThisArticle');
 
 Route::get('commentable/{commentableId}/comment', 'CommentController@show')->name('comments.show');
 Route::delete('comments/{id}', 'CommentController@destroy')->name('comments.destroy');
@@ -54,6 +64,9 @@ Route::post('/questions/{id}/answer','AnswerController@store');
 
 Route::post('/question/follower','QuestionFollowController@follower');
 Route::post('/question/follow','QuestionFollowController@followThisQuestion');
+
+Route::post('/question/{id}/votes/users','VoteController@questionVoted');
+Route::post('/question/vote','VoteController@voteThisQuestion');
 
 Route::get('/answer/{id}/comment','CommentController@answer');
 Route::get('/question/{id}/comment','CommentController@question');

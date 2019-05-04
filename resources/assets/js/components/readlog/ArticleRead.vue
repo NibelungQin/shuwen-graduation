@@ -1,5 +1,6 @@
 <template>
     <div class="section__3bS4">
+        [文章]
         <router-link :to="'/articles/' + id">
             {{title}}
         </router-link>

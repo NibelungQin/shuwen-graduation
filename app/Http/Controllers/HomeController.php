@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\QuestionResource;
 use App\Model\Article;
+use App\Model\Question;
+use App\Model\Read;
+use App\Repositories\ArticleRepository;
+use App\Repositories\QuestionRepository;
 use App\Repositories\ReadRepository;
 use Illuminate\Http\Request;
 
@@ -14,10 +19,14 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     protected $readRepository;
+    protected $articleRepository;
+    protected $questionRepository;
 
-    public function __construct(ReadRepository $readRepository)
+    public function __construct(ReadRepository $readRepository,ArticleRepository $articleRepository,QuestionRepository $questionRepository)
     {
         $this->readRepository = $readRepository;
+        $this->articleRepository = $articleRepository;
+        $this->questionRepository = $questionRepository;
     }
 
     /**
@@ -64,12 +73,14 @@ class HomeController extends Controller
 
     public function articles()
     {
-        
+        $articles = $this->articleRepository->homeArticles();
+        return response()->json($articles);
     }
 
     public function questions()
     {
-        
+        $questions = $this->questionRepository->homeQuestions();
+        return response()->json($questions);
     }
 
     /**
@@ -77,7 +88,12 @@ class HomeController extends Controller
      */
     public function recommend()
     {
-        
+        $articles = Article::orderBy('view_count','desc')->take(3)->get();
+        $question = Question::orderBy('view_count','desc')->take(3)->get();
+        return response()->json([
+            'articles' => $articles,
+            'questions' => $question
+        ]);
     }
 
     /**
@@ -85,6 +101,13 @@ class HomeController extends Controller
      */
     public function reads()
     {
-
+        $user_id = user('api')->id;
+        $reads = Read::where('user_id',$user_id)->with('readable')->take(6)->get();
+        $reads = collect($reads)->map(function ($read){
+           $read['type'] = class_basename($read['readable_type']);
+           $read['created_diff'] = $read->updated_at->diffForHumans();
+           return $read;
+        });
+        return response()->json($reads);
     }
 }

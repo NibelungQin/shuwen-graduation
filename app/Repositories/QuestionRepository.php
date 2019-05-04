@@ -62,4 +62,13 @@ class QuestionRepository
         $question = Question::with(['comments', 'comments.user'])->where('id', $id)->first();
         return $question->comments;
     }
+
+    /**
+     * 首页六条最新的问答
+     * @return mixed
+     */
+    public function homeQuestions()
+    {
+        return Question::latest('created_at')->take(4)->get();
+    }
 }

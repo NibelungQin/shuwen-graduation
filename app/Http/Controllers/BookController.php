@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Proxy\ApiProxy;
+use App\Model\Book;
+use App\Repositories\ReadRepository;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
 
+    protected $readRepository;
     protected $apiProxy;
     const API_BASIC = 'http://api.zhuishushenqi.com';
     const NOVEL_COVER_URL = 'http://statics.zhuishushenqi.com';
 
-    public function __construct(ApiProxy $apiProxy)
+    public function __construct(ApiProxy $apiProxy,ReadRepository $readRepository)
     {
         $this->apiProxy = $apiProxy;
+        $this->readRepository = $readRepository;
     }
     
     public function category()
@@ -50,6 +54,10 @@ class BookController extends Controller
         $bookId = \request('bookId');
         $router = '/book/'.$bookId;
         $response = $this->apiProxy->get(self::API_BASIC,$router);
+//        $book = Book::where('book_id',$response->_id)->first();
+//        if (!$book){
+//            Book::create(['book_id'=>$response->_id,'title'=>$response->title]);
+//        }
         return $response;
     }
 }
