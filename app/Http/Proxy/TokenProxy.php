@@ -21,20 +21,7 @@ class TokenProxy
         $this->http = $http;
     }
 
-    public function login($email,$password)
-    {
-        if (auth()->attempt(['email'=>$email,'password'=>$password,'is_active'=>1])){
-            return $this->proxy('password',[
-                'username' => $email,
-                'password' => $password,
-                'scope' => '',
-            ]);
-        }
-        return response()->json([
-            'status' => false,
-            'message' => 'credential is not match'
-        ], 421);
-    }
+
 
     public function refresh()
     {
@@ -84,5 +71,19 @@ class TokenProxy
             'auth_id' => md5($token['refresh_token']),
             'expires_in' => $token['expires_in']
         ])->cookie('refreshToken',$token['refresh_token'],14400,null,null,false,true);
+    }
+    public function login($email,$password)
+    {
+        if (auth()->attempt(['email'=>$email,'password'=>$password,'is_active'=>1])){
+            return $this->proxy('password',[
+                'username' => $email,
+                'password' => $password,
+                'scope' => '',
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => 'credential is not match'
+        ], 421);
     }
 }

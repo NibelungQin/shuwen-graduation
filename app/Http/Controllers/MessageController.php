@@ -30,7 +30,7 @@ class MessageController extends Controller
         $message = $this->messageRepository->create($data);
         if ($message){
             $message->toUser->notify(new NewMessageNotification($message));
-            return response()->json(['status'=>true]);
+            return response()->json(['status'=>true,'data'=>$message]);
         }
         return response()->json(['status'=>false]);
     }

@@ -1,7 +1,8 @@
 <template>
+    <div class="main-content">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-10 offset-md-1">
                 <div class="card">
                     <div class="card-header">
                         对话列表
@@ -29,9 +30,9 @@
                                 <img class="rounded-circle" :src="message.from_user.avatar" style="width: 40px" alt="">
                                 <div class="media-body">
                                     <h4 class="">
-                                        <a href="#">
+                                        <router-link :to="'/users/'+message.from_user.name">
                                             {{message.from_user.name}}
-                                        </a>
+                                        </router-link>
                                     </h4>
                                     <p>
                                         {{message.body}} <span class="float-right">{{message.created_at | formatDate}}</span>
@@ -51,6 +52,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -108,8 +110,16 @@
         },
         methods: {
             submitMessage() {
-                axios.post('/api/inbox/'+this.$route.params.id+'/store',{
-                    'body': this.formData.body
+                this.$refs.formData.validate((valid)=> {
+                    if (valid) {
+                        axios.post('/api/inbox/'+this.$route.params.id+'/store',{
+                            'body': this.formData.body
+                        }).then(response=>{
+                            this.$Message.success('发送私信成功!');
+                            this.formData.body = ''
+                            // this.messages.push(response.data.data)
+                        })
+                    }
                 })
             }
         }
@@ -117,7 +127,14 @@
 </script>
 
 <style scoped>
+    .main-content {
+        padding: 25px 0!important;
+        /*background: #f5f5f1!important;*/
+    }
     .messages-list {
         margin-top: 80px;
+    }
+    .media {
+        margin-top: 15px;
     }
 </style>

@@ -15,6 +15,9 @@
                     <div class="mb5 mt5">
                         <h4 class="news__item-title">{{question.title}}</h4>
                     </div>
+                    <!--<div v-for="topic in question.topics">-->
+                        <!--<Tag checkable color="success">{{topic.name}}</Tag>-->
+                    <!--</div>-->
                     <!--<div class="article-excerpt">{{article.description}}</div>-->
                 </div>
             </router-link>

@@ -169,6 +169,7 @@
                 this.$refs.form.validate((valid)=>{
                     if (valid) {
                         axios.post('/api/articles', data).then(response => {
+                            this.$Message.success('发表文章成功!');
                             this.$router.push({name: 'articles'})
                             // console.log(this.$refs.image.imgDataUrl)
                         })

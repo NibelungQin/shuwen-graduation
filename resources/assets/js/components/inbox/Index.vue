@@ -7,7 +7,7 @@
                         <div class="card-header">私信列表</div>
                         <div class="card-body">
                             <div v-for="message in messages">
-                                <div class="media" :class="{'unread' : read}">
+                                <div class="media" :class="message[0].read_at ? '' : 'not_read_at'">
                                     <div>
                                         <a href="#">
                                             <img v-if="user.id == message[0].to_user_id" class="rounded-circle" :src="message[0].from_user.avatar" alt="" style="width:50px">
@@ -16,16 +16,16 @@
                                     </div>
                                     <div class="media-body">
                                         <h4>
+                                            <a :href="/inbox/+ message[0].dialog_id">
+                                                {{message[0].body}}
+                                            </a>
+                                        </h4>
+                                        <p>
                                             <a href="" v-if="user.id == message[0].to_user_id">
                                                 {{message[0].to_user.name}}
                                             </a>
                                             <a href="" v-else>
                                                 {{message[0].from_user.name}}
-                                            </a>
-                                        </h4>
-                                        <p>
-                                            <a :href="/inbox/+ message[0].dialog_id">
-                                                {{message[0].body}}
                                             </a>
                                         </p>
                                     </div>
@@ -68,7 +68,10 @@
         padding: 25px 0!important;
         /*background: #f5f5f1!important;*/
     }
-    .media.unread {
-        background:#fff9ca;
+    .media {
+        margin-top: 15px;
+    }
+    .not_read_at {
+        background-color:#f5f5f1;
     }
 </style>

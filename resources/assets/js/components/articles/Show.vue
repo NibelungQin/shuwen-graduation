@@ -37,6 +37,9 @@
                         <div class="text-center" style="margin-top: 20px">
                             <article-follow-button :can="can_comment" :article="article.id"></article-follow-button>
                             <user-vote-button :can="can_comment" :article="article.id" :number="article.votes_count"></user-vote-button>
+                            <router-link :to="'/articles/'+article.id+'/edit'">
+                                <button v-if="article.user_id == user.id" class="btn btn-danger btn-lg">修改</button>
+                            </router-link>
                         </div>
                         <div class="comment">
                             <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="article.id"></comment-post>
@@ -115,7 +118,7 @@
     .main-content {
         height: 100%;
         padding: 25px 0!important;
-        background: #f5f5f1!important;
+        /*background: #f5f5f1!important;*/
     }
     .content--wrap {
         -webkit-box-flex: 1;

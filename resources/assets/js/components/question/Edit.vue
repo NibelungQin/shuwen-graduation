@@ -1,8 +1,8 @@
 <template>
-    <div class="jumbotron">
+    <div class="main-content">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 offset-md-2">
+                <div class="col-md-10 offset-md-1">
                     <div class="card">
                         <div class="card-header">
                             修改问题
@@ -153,6 +153,10 @@
 </script>
 
 <style scoped>
+    .main-content {
+        padding: 25px 0!important;
+        /*background: #f5f5f1!important;*/
+    }
     .quill-editor {
         height: 200px;
     }

@@ -69,6 +69,6 @@ class QuestionRepository
      */
     public function homeQuestions()
     {
-        return Question::latest('created_at')->take(4)->get();
+        return Question::with(['topics'])->latest('created_at')->take(4)->get();
     }
 }

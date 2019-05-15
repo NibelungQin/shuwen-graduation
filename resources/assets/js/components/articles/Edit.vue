@@ -73,7 +73,7 @@
                         </Row>
 
                         <FormItem>
-                            <Button @click="onSubmit" type="success" long>发布</Button>
+                            <Button @click="onSubmit" type="success" long>修改</Button>
                         </FormItem>
                     </Card>
                 </Col>
@@ -192,6 +192,7 @@
                 this.$refs.form.validate((valid)=>{
                     if (valid) {
                         axios.post('/api/articles/' + this.$route.params.id, data).then(response => {
+                            this.$Message.success('修改文章成功!');
                             this.$router.push({name: 'article_show'})
                         })
                     } else {

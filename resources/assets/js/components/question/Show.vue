@@ -32,6 +32,9 @@
                         <div class="visit">
                             <question-follow-button :can="can_comment" :question="question.id"></question-follow-button>
                             <user-vote-button :can="can_comment" :question="question.id" :number="question.votes_count"></user-vote-button>
+                            <router-link :to="'/questions/'+question.id+'/edit'">
+                                <button v-if="question.user_id == user.id" class="btn btn-danger btn-sm">修改</button>
+                            </router-link>
                             <a @click="show_comment"><Icon type="md-create" />评论</a>
                             <div v-if="is_show" style="margin-left: 30px;background-color: white">
                                 <comment-post :canComment="can_comment" :user_id="user.id" :username="user.name" :commentableId="question.id" :commentableType="commentableType"></comment-post>
@@ -123,7 +126,7 @@
     .main-content {
         height: 100%;
         padding: 25px 0!important;
-        background: #f5f5f1!important;
+        /*background: #f5f5f1!important;*/
     }
     .content--wrap {
         -webkit-box-flex: 1;
